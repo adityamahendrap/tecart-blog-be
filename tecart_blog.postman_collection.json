@@ -1,0 +1,3282 @@
+{
+	"info": {
+		"_postman_id": "1c5f9a02-bccb-469a-a652-ef08ab61a4a6",
+		"name": "Tecart Blog",
+		"description": "Tecart Blog API documentation.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25609039"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"adityamahendra1151\",\r\n    \"email\": \"adiymaherdana@gmail.com\",\r\n    \"password\": \"secret\",\r\n    \"confirmPassword\": \"secret\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/auth/register",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Register Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"adityamahendra1151\",\r\n    \"email\": \"adiymaherdana@gmail.com\",\r\n    \"password\": \"secret\",\r\n    \"confirmPassword\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/auth/register",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-6HEOOYo/3j1gaZ0QSSux1FITqXI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 05:09:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"adiymaherdana@gmail.com\",\r\n    \"password\": \"secret\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/auth/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"adiymaherdana@gmail.com\",\r\n    \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/auth/login",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "149"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"95-Y9YeOXwChZUjaJhvjDjTkwSvSzo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 05:48:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI2NGFiOTI5NWM0YzRiNjc3Njk2NzVhNzAiLCJleHAiOjE2ODk1NzI5MTN9.77nmEGucvGe7yvmHU2NzpVEc2QzI572oMqukv_tIAiw\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJjN2ZmMTQ4Zi1hYzFlLTQxZmEtODBlYi05NGZlODQxMTc3MmIiLCJleHAiOjE2ODgyMjI2OTd9.G4kgNtK8Eo7XTnxxvGIm7IIJbuPqfvQK2300JluVnog",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/auth/verify-token",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"verify-token"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Verify Token Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/auth/verify-token",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"verify-token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"23-jjwdf6jJkl3jTft38nBrPeVH6OM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 05:49:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"adiymaherdana@gmail.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Send Email Verification",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/auth/send-email-verification",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"send-email-verification"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Send Email Verification Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/auth/send-email-verification",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"send-email-verification"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "61"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3d-ce8gGHLAEwLuJJGWkakh3PNRrXw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:15:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Verification code sent, please check your email\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"a42UtRx7JNIxGWmw0LafXxtIwZsmecZi\",\r\n    \"newPassword\": \"secret\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/auth/change-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Change Password Example",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currentPassword\": \"secret\",\r\n    \"newPassword\": \"secret2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/auth/change-password",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"change-password"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-lakmr+DKqfX/l24uCPnpB/kr9GQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:34:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Password updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"adiymaherdana@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/auth/reset-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Forgot Password Example",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"adiymaherdana@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/auth/reset-password",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"reset-password"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-WTVXf1Q+TBAEXXoAId3wQedIwS0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:36:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Password reseted, please check your email\"\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/users?sort",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": null,
+									"description": "available value: \n- mostposts\n- fewestposts\n- mostfollowers\n- fewestposts"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/users/64a6d0e840c9e01c7c1e55f1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"64a6d0e840c9e01c7c1e55f1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/users/64a6d0e840c9e01c7c1e55f1",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"64a6d0e840c9e01c7c1e55f1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "442"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1ba-YZL773QvfPXHsyMY4uTi7HIIPqg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:38:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User retrieved\",\n    \"data\": {\n        \"_id\": \"64a6d0e840c9e01c7c1e55f1\",\n        \"email\": \"q\",\n        \"password\": \"$argon2id$v=19$m=65536,t=3,p=4$8VSg9N97/L92Qzef5czuow$/o4sz0/9JKHOuuR2dDxYYss8DeO9rx28WTso1z1FfjE\",\n        \"username\": \"aditya999\",\n        \"isVerified\": false,\n        \"createdAt\": \"2023-07-06T14:34:16.841Z\",\n        \"updatedAt\": \"2023-07-06T14:39:47.311Z\",\n        \"profile\": {\n            \"name\": \"adit\",\n            \"bio\": \"saya suka tidur\",\n            \"picture\": \"http://unsplash\",\n            \"location\": \"Denapasar, Bali\",\n            \"links\": [\n                \"bla\",\n                \"bla\"\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"\",\r\n    \"username\": \"\",\r\n    \"profile\": {\r\n        \"name\": \"\",\r\n        \"bio\": \"\",\r\n        \"picture\": \"\",\r\n        \"location\": \"\",\r\n        \"links\": [\"\"]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/users/c7ff148f-ac1e-41fa-80eb-94fe8411772b",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"c7ff148f-ac1e-41fa-80eb-94fe8411772b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/users/648d3e7297a0059630318e44",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"648d3e7297a0059630318e44"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-+BFCXZBji7vrbkrwyE5s2YKViik\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:39:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "List Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/posts",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "",
+									"description": "available value: \n- published\n- draft",
+									"disabled": true
+								},
+								{
+									"key": "tags",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "categoryId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": "64a6b6ee2134176e8c07b585",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/posts/1268368172638",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"1268368172638"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Related Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/posts/related/64a6d6999bddc2fcfd61c701",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"related",
+								"64a6d6999bddc2fcfd61c701"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"ini adalah artakel keduaa\",\r\n    \"categoryId\": \"64a60fc4ae77f9fbd036f882\",\r\n    \"description\": \"\",\r\n    \"content\": \"a\",\r\n    \"tags\": [\"\", \"\"],\r\n    \"status\": \"Published\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/posts/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"The Coolest Sports Before Century\",\r\n    \"categoryId\": \"64a60fe4ae77f9fbd036f884\",\r\n    \"description\": \"Sports before century\",\r\n    \"content\": \"...\",\r\n    \"tags\": [\"before century\", \"history\"],\r\n    \"status\": \"Published\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/posts/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "436"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b4-nFtDMQzVJKJs7/ylElGSbHGHcnY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:54:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Post created\",\n    \"data\": {\n        \"title\": \"The Coolest Sports Before Century\",\n        \"slug\": \"the-coolest-sports-before-century\",\n        \"userId\": \"64ab9295c4c4b67769675a70\",\n        \"description\": \"Sports before century\",\n        \"content\": \"...\",\n        \"readingTime\": 1,\n        \"categoryId\": \"64a60fe4ae77f9fbd036f884\",\n        \"tags\": [\n            \"before century\",\n            \"history\"\n        ],\n        \"status\": \"Published\",\n        \"_id\": \"64abab1dad1e2bee460df976\",\n        \"createdAt\": \"2023-07-10T06:54:21.303Z\",\n        \"updatedAt\": \"2023-07-10T06:54:21.303Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Insert Tittle Here\",\r\n    \"categoryId\": \"64a60fc4ae77f9fbd036f882\",\r\n    \"description\": \"Insert description here\",\r\n    \"content\": \"...\",\r\n    \"tags\": [\"test\"],\r\n    \"status\": \"Draft\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/posts/64a6d6999bddc2fcfd61c701",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"64a6d6999bddc2fcfd61c701"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Insert Tittle Here\",\r\n    \"categoryId\": \"64a60fc4ae77f9fbd036f882\",\r\n    \"description\": \"Insert description here\",\r\n    \"content\": \"...\",\r\n    \"tags\": [\"test\"],\r\n    \"status\": \"Draft\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/posts/64a6d6999bddc2fcfd61c701",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"64a6d6999bddc2fcfd61c701"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-jhmos8VHfaTr1Mx2E4ib6Ug+3+Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:56:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Post updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/posts/7498324",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"7498324"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/posts/64a6d8aec266bfb24b0fe4fa",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										"64a6d8aec266bfb24b0fe4fa"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-XrW4VbXHKSS/geYbFMGFJouGuCc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:57:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Post deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "List Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/categories/?sort=az",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								""
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "az",
+									"description": "available value:\n- az\n- za"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/categories/?sort=az",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										""
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "az",
+											"description": "available value:\n- az\n- za"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1085"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"43d-Jw85f683j5VxYTGACBi9cSoIP5o\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:59:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Categories retrieved\",\n    \"data\": [\n        {\n            \"_id\": \"64a6111626e1b5ab80afc645\",\n            \"name\": \"Entertaiment\",\n            \"createdAt\": \"2023-07-06T00:55:50.500Z\",\n            \"updatedAt\": \"2023-07-06T00:55:50.500Z\"\n        },\n        {\n            \"_id\": \"64a611b47c11f7b93a706ce5\",\n            \"name\": \"Fashion\",\n            \"createdAt\": \"2023-07-06T00:58:28.153Z\",\n            \"updatedAt\": \"2023-07-06T00:58:28.153Z\"\n        },\n        {\n            \"_id\": \"64a61246b2e1d528d8de5ccc\",\n            \"name\": \"Food\",\n            \"createdAt\": \"2023-07-06T01:00:54.284Z\",\n            \"updatedAt\": \"2023-07-06T01:00:54.284Z\"\n        },\n        {\n            \"_id\": \"64a6113648e328b74e6bfe52\",\n            \"name\": \"Health\",\n            \"createdAt\": \"2023-07-06T00:56:22.043Z\",\n            \"updatedAt\": \"2023-07-06T00:56:22.043Z\"\n        },\n        {\n            \"_id\": \"64a61059a568cdb75242c953\",\n            \"name\": \"Science\",\n            \"createdAt\": \"2023-07-06T00:52:41.593Z\",\n            \"updatedAt\": \"2023-07-06T00:52:41.593Z\"\n        },\n        {\n            \"_id\": \"64a60fe4ae77f9fbd036f884\",\n            \"name\": \"Sports\",\n            \"createdAt\": \"2023-07-06T00:50:44.164Z\",\n            \"updatedAt\": \"2023-07-06T00:50:44.164Z\"\n        },\n        {\n            \"_id\": \"64a610111b38fbc8afc59653\",\n            \"name\": \"Technology\",\n            \"createdAt\": \"2023-07-06T00:51:29.637Z\",\n            \"updatedAt\": \"2023-07-06T00:51:29.637Z\"\n        },\n        {\n            \"_id\": \"64a61240b2e1d528d8de5cca\",\n            \"name\": \"Travel\",\n            \"createdAt\": \"2023-07-06T01:00:48.890Z\",\n            \"updatedAt\": \"2023-07-06T01:00:48.890Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Minuman\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/categories/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Movies\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/categories/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-3dz0nhWKnJ8nNM8Qy+0L8tLrss8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:01:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Category created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/categories/64a60fc4ae77f9fbd036f882",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"64a60fc4ae77f9fbd036f882"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Bussiness\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/categories/64a6111726e1b5ab80afc647",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										"64a6111726e1b5ab80afc647"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-EyXct4+l6/SL2TBCgf12OF/HsYE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:59:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Category updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/categories/64a6111726e1b5ab80afc647",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"categories",
+										"64a6111726e1b5ab80afc647"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-oCBh6KwgTqOw4kBmQwxTMOxy7mE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 06:59:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Category deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "List Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/comments/post/64a6d6999bddc2fcfd61c701",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"post",
+								"64a6d6999bddc2fcfd61c701"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"slug\": \"\",\r\n    \"description\": \"\",\r\n    \"tags\": [\"\"],\r\n    \"status\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/comments/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"64a6d6999bddc2fcfd61c701\",\r\n    \"parentId\": null,\r\n    \"content\": \"Icikiwir\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/comments/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-XcrtyO/mjQK3fcf13BAtpuFAQ3o\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:03:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Comment created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Comment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/comments/64a60fc4ae77f9fbd036f882",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"64a60fc4ae77f9fbd036f882"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"Wir\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/comments/64a7a10ca103a8cb96a99363",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										"64a7a10ca103a8cb96a99363"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-03B1kUvUXxhUkAx2/pS7J6d9zUI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:04:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Comment updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/comments/7498324",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"7498324"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/comments/64a7a0a9a184d94edf3e9662",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										"64a7a0a9a184d94edf3e9662"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-+7dttf6TMeUXpmYyRtIWXCeHyZw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:05:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Comment deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Likes",
+			"item": [
+				{
+					"name": "List Likes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/likes/post/64a6db2516cd7c795e84628a",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"likes",
+								"post",
+								"64a6db2516cd7c795e84628a"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/likes/post/64a6db2516cd7c795e84628a",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										"post",
+										"64a6db2516cd7c795e84628a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "233"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e9-ykGozGNyEbosHXiuASCa+wHLI78\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:06:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Likes retrieved\",\n    \"total\": 1,\n    \"data\": [\n        {\n            \"_id\": \"64a78b19364a5abfcea5b6ed\",\n            \"postId\": \"64a6db2516cd7c795e84628a\",\n            \"userId\": \"64a6b6ee2134176e8c07b585\",\n            \"createdAt\": \"2023-07-07T03:48:41.871Z\",\n            \"updatedAt\": \"2023-07-07T03:48:41.871Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/likes/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"likes",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"64a6d6999bddc2fcfd61c701\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/likes/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "218"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"da-dUwuc/909t3tUj6ekNc4/N2wazc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:07:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Like created\",\n    \"data\": {\n        \"postId\": \"64a6d6999bddc2fcfd61c701\",\n        \"userId\": \"64ab9295c4c4b67769675a70\",\n        \"_id\": \"64abae1be85eb873c927a703\",\n        \"createdAt\": \"2023-07-10T07:07:07.555Z\",\n        \"updatedAt\": \"2023-07-10T07:07:07.555Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Like",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/likes/64abae00e85eb873c927a6fb",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"likes",
+								"64abae00e85eb873c927a6fb"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/likes/64abae00e85eb873c927a6fb",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"likes",
+										"64abae00e85eb873c927a6fb"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-KhohLgb1+U62duxqAcp9zhOR/yM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:07:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Like deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bookmarks",
+			"item": [
+				{
+					"name": "List Bookmarks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/bookmarks",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"bookmarks"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/bookmarks",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"bookmarks"
+									],
+									"query": [
+										{
+											"key": "postId",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "userId",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "430"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1ae-0yexTdR/fzseMDCchQeUUrp4r+w\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:09:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Bookmarks retrieved\",\n    \"total\": 2,\n    \"data\": [\n        {\n            \"_id\": \"64a79cf20c1e34c2809770b1\",\n            \"userId\": \"64a6b6ee2134176e8c07b585\",\n            \"postId\": \"64a6d6999bddc2fcfd61c701\",\n            \"createdAt\": \"2023-07-07T05:04:50.425Z\",\n            \"updatedAt\": \"2023-07-07T05:04:50.425Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"64a79dd9a3e1034fce817f62\",\n            \"userId\": \"64a6b6ee2134176e8c07b585\",\n            \"postId\": \"64a6db2516cd7c795e84628a\",\n            \"createdAt\": \"2023-07-07T05:08:41.889Z\",\n            \"updatedAt\": \"2023-07-07T05:08:41.889Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Bookmark",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/bookmarks/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"bookmarks",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"64a6db2516cd7c795e84628a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/bookmarks/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"bookmarks",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "222"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"de-s9DT+C7/fpK2Et/uhr362O1/vmM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:11:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Bookmark created\",\n    \"data\": {\n        \"userId\": \"64ab9295c4c4b67769675a70\",\n        \"postId\": \"64a6db2516cd7c795e84628a\",\n        \"_id\": \"64abaf1159851e1d3472ff59\",\n        \"createdAt\": \"2023-07-10T07:11:13.475Z\",\n        \"updatedAt\": \"2023-07-10T07:11:13.475Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Bookmark",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/likes/7498324",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"likes",
+								"7498324"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/bookmarks/64a79dd9a3e1034fce817f62",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"bookmarks",
+										"64a79dd9a3e1034fce817f62"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-4KsL0TjjT1OVg8KN/a510Tem08k\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:11:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Bookmark deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Follows",
+			"item": [
+				{
+					"name": "List Follows",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/follows/user/64a6b6ee2134176e8c07b585",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"follows",
+								"user",
+								"64a6b6ee2134176e8c07b585"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/follows/user/64a6b6ee2134176e8c07b585?type=followings",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"follows",
+										"user",
+										"64a6b6ee2134176e8c07b585"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "followings",
+											"description": "available value:\n- followings\n- followers"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "424"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a8-YwTh5p+vKeR04I4aifLE3PFeOP0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:13:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Follows retrieved\",\n    \"total\": 2,\n    \"data\": [\n        {\n            \"_id\": \"64a793ec355208163a1b7ff2\",\n            \"doerId\": \"64a6b6ee2134176e8c07b585\",\n            \"targetId\": \"64a6c57863b3b0d0eba625c2\",\n            \"createdAt\": \"2023-07-07T04:26:20.943Z\",\n            \"updatedAt\": \"2023-07-07T04:26:20.943Z\"\n        },\n        {\n            \"_id\": \"64a793fe355208163a1b7ff5\",\n            \"doerId\": \"64a6b6ee2134176e8c07b585\",\n            \"targetId\": \"64a6d0e840c9e01c7c1e55f1\",\n            \"createdAt\": \"2023-07-07T04:26:38.909Z\",\n            \"updatedAt\": \"2023-07-07T04:26:38.909Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Follow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/follows/1268368172638",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"follows",
+								"1268368172638"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Follow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/follows/7498324",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"follows",
+								"7498324"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/follows/64a793ec355208163a1b7ff2",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"follows",
+										"64a793ec355208163a1b7ff2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c-RiLYyldUYp01QR1HmFZaDM7FTdQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:14:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Follow deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Shares",
+			"item": [
+				{
+					"name": "List Shares",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/shares/user/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"shares",
+								"user",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/shares/user/64a6b6ee2134176e8c07b585",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"shares",
+										"user",
+										"64a6b6ee2134176e8c07b585"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "486"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e6-Nd7jXfW4vfZL9JnGiD4/7n+vR1w\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:15:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Shares retrieved\",\n    \"data\": [\n        {\n            \"_id\": \"64a796e569be80cb4cd8e01a\",\n            \"userId\": \"64a6b6ee2134176e8c07b585\",\n            \"postId\": \"64a6db2516cd7c795e84628a\",\n            \"content\": \"artikel ini bagus juga\",\n            \"createdAt\": \"2023-07-07T04:39:01.062Z\",\n            \"updatedAt\": \"2023-07-07T04:41:18.737Z\"\n        },\n        {\n            \"_id\": \"64a796f169be80cb4cd8e01d\",\n            \"userId\": \"64a6b6ee2134176e8c07b585\",\n            \"postId\": \"64a6db2516cd7c795e84628a\",\n            \"content\": \"ini adalah artikel yang bagus\",\n            \"createdAt\": \"2023-07-07T04:39:13.389Z\",\n            \"updatedAt\": \"2023-07-07T04:39:13.389Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Share",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"\",\r\n    \"slug\": \"\",\r\n    \"description\": \"\",\r\n    \"tags\": [\"\"],\r\n    \"status\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/shares/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"shares",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"postId\": \"64a6db2516cd7c795e84628a\",\r\n    \"content\": \"ini adalah artikel yang bagus\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/shares/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"shares",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "261"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"105-WBJZBaCBkGz6Bz/KWhH0KDom4Pg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:16:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Share created\",\n    \"data\": {\n        \"userId\": \"64ab9295c4c4b67769675a70\",\n        \"postId\": \"64a6db2516cd7c795e84628a\",\n        \"content\": \"ini adalah artikel yang bagus\",\n        \"_id\": \"64abb04159851e1d3472ff70\",\n        \"createdAt\": \"2023-07-10T07:16:17.228Z\",\n        \"updatedAt\": \"2023-07-10T07:16:17.228Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Share",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/shares/64a60fc4ae77f9fbd036f882",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"shares",
+								"64a60fc4ae77f9fbd036f882"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"artikel ini bagus juga\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/shares/64a796e569be80cb4cd8e01a",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"shares",
+										"64a796e569be80cb4cd8e01a"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b-+Tsqk+Pt3/1pLT9M8lqLeLv+SG0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:16:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Share updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Share",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/shares/7498324",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"shares",
+								"7498324"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/shares/64a796e569be80cb4cd8e01a",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"shares",
+										"64a796e569be80cb4cd8e01a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b-B+1KAA1YWb8hmSVjwfywsLlAuOE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:16:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Share deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "List Subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/likes/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"likes",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Fetch",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/subscriptions/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										""
+									],
+									"query": [
+										{
+											"key": "subscriberId",
+											"value": null,
+											"disabled": true
+										},
+										{
+											"key": "targetId",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "249"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f9-hSCh2cU/CIL1cAZbgEOqhukSuf8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:17:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Subscriptions retrieved\",\n    \"total\": 1,\n    \"data\": [\n        {\n            \"_id\": \"64a79af33427c212c72c7597\",\n            \"subscriberId\": \"64a6b6ee2134176e8c07b585\",\n            \"targetId\": \"64a6c57863b3b0d0eba625c2\",\n            \"createdAt\": \"2023-07-07T04:56:19.052Z\",\n            \"updatedAt\": \"2023-07-07T04:56:19.052Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Subscription",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"targetId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/subscriptions/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"targetId\": \"64a6c57863b3b0d0eba625c2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseurl}}/api/subscriptions/",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ea-5zSrfOike+3c1tQdLRY+vh5YEWA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:18:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Subscription created\",\n    \"data\": {\n        \"subscriberId\": \"64ab9295c4c4b67769675a70\",\n        \"targetId\": \"64a6c57863b3b0d0eba625c2\",\n        \"_id\": \"64abb0b559851e1d3472ff79\",\n        \"createdAt\": \"2023-07-10T07:18:13.559Z\",\n        \"updatedAt\": \"2023-07-10T07:18:13.559Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Subscription",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/subscriptions/7498324",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								"7498324"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseurl}}/api/subscriptions/64abb0b559851e1d3472ff79",
+									"host": [
+										"{{baseurl}}"
+									],
+									"path": [
+										"api",
+										"subscriptions",
+										"64abb0b559851e1d3472ff79"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-/w4EwbaPFGxcB0Wub5YABEJpw1c\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Jul 2023 07:18:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Subscription deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Feeds",
+			"item": [
+				{
+					"name": "Relevant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/feeds/",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"feeds",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Latest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/feeds/latest",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"feeds",
+								"latest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Top",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/feeds/top",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"feeds",
+								"top"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI2NGFiOTI5NWM0YzRiNjc3Njk2NzVhNzAiLCJleHAiOjE2ODk1NzM3Nzh9.D7lZhRgmqZtaQcp90EUbcG8ftaXhDYdXHc-YF8UTmiQ"
+		},
+		{
+			"key": "baseurl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
