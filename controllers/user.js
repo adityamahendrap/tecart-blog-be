@@ -4,6 +4,7 @@ import pagination from '../utils/pagination.js';
 import User from '../models/user.js';
 import Post from '../models/post.js';
 import Follow from '../models/follow.js';
+import userService from '../services/user.service.js';
 
 export default {
   list: async (req, res, next) => {
@@ -12,30 +13,30 @@ export default {
     // total post, followers
     const sort = {}
     const filter = {}
-    // if(sortQ === 'mostposts') 
+    // if(sortQ === 'mostposts')
     // if(sortQ === 'fewestposts')
     // if(sortQ === 'mostfollowers')
     // if(sortQ === 'mostfollowers')
 
     try {
-      const userByPosts = await Post.aggregate([
-        {
-          $group: {
-            _id: "$userId",
-            count: { $sum: 1 }
-          }
-        }
-      ]);
-      const userByFollowers = await Follow.aggregate([
-        {
-          $group: {
-            _id: "$targetId",
-            count: { $sum: 1 }
-          }
-        }
-      ]);
+      // const userByPosts = await Post.aggregate([
+      //   {
+      //     $group: {
+      //       _id: "$userId",
+      //       count: { $sum: 1 }
+      //     }
+      //   }
+      // ]);
+      // const userByFollowers = await Follow.aggregate([
+      //   {
+      //     $group: {
+      //       _id: "$targetId",
+      //       count: { $sum: 1 }
+      //     }
+      //   }
+      // ]);
       
-      // const users = await User.find({}).sort(sort)
+      const users = await userService.getAllUser();
       
       logger.info("User accessed users");
       // setCache(req, next, data)
@@ -49,7 +50,7 @@ export default {
     const { id } = req.params
     
     try {
-      const user = await User.findById(id)
+      const user = await userService.getOneUser(id)
       if(!user) {
         return res.status(404).send('User not found')
       }
@@ -66,9 +67,9 @@ export default {
     const { id } =  req.params
 
     try {
-      const user = await User.findByIdAndUpdate(id, req.body)
+      const user = await User.findByIdAndUpdate(id, req.body, { runValidators: true })
       if(!user) {
-        return res.status(404).send('User not found')
+        return res.status(404).send({ message: 'User not found' })
       }
 
       logger.info("User updated user");

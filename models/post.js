@@ -20,6 +20,7 @@ const postSchema = new mongoose.Schema(
     },
     tags: [String],
     status: { type: String, enum: ["Draft", "Published"], default: "Draft" },
+    views: { type: Number, default: 0 }
   },
   {
     timestamps: true,
