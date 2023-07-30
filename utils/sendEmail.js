@@ -23,7 +23,6 @@ export default async (email, subject, text) => {
       subject,
       text,
     });
-    // console.log(sendEmail);
 
     return (sendEmail.accepted && sendEmail.accepted.length > 0)
   } catch (err) {

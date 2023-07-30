@@ -19,7 +19,6 @@ export default async (req, res, next) => {
     
     const strUserId = user._id.toString();
     req.user = { ...user._doc, _id: strUserId };
-    console.log(req.user);
     next();
   } catch (error) {
     return res.status(400).json({ message: "Invalid token" });

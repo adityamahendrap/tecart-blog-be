@@ -4,7 +4,7 @@ import pagination from '../utils/pagination.js';
 import User from '../models/user.js';
 import Post from '../models/post.js';
 import Follow from '../models/follow.js';
-import userService from '../services/user.service.js';
+// import userService from '../services/';
 
 export default {
   list: async (req, res, next) => {
@@ -36,7 +36,7 @@ export default {
       //   }
       // ]);
       
-      const users = await userService.getAllUser();
+      // const users = await userService.getAllUser();
       
       logger.info("User accessed users");
       // setCache(req, next, data)
@@ -50,7 +50,7 @@ export default {
     const { id } = req.params
     
     try {
-      const user = await userService.getOneUser(id)
+      // const user = await userService.getOneUser(id)
       if(!user) {
         return res.status(404).send('User not found')
       }

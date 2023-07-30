@@ -14,7 +14,9 @@ export default async (req, res, next) => {
     }
     next()
   } catch (err) {
-    console.log(err);
+    await client.disconnect();
+    logger.error(err);
+    next(err)
   } finally {
     await client.disconnect();
   }

@@ -7,10 +7,8 @@ router.post("/login", authController.login);
 router.post("/register", authController.register);
 router.post("/verify-token", authController.verifyToken);
 router.get("/verify-email/:id", authController.verifyEmail);
-
-router.use(verifyUser);
-router.get("/send-email-verification", authController.sendEmailVerification);
-router.put("/change-password", authController.changePassword);
+router.get("/send-email-verification", verifyUser, authController.sendEmailVerification);
+router.put("/change-password", verifyUser, authController.changePassword);
 router.put("/reset-password", authController.resetPassword);
 router.put("/logout");
 

@@ -33,15 +33,14 @@ mongoose.connection.once('open', () => console.log('Database Connected'))
 
 app.use(express.json());
 app.use(cors());
-app.use(logging);
+// app.use(logging);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");
 });
 
 app.use("/api/auth", authRoute);
-app.use(verifyUser);
-// app.use(cacheMiddleware);
+app.use(cacheMiddleware);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/feeds", feedRoute);
