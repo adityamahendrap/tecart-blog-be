@@ -73,16 +73,43 @@ const userService = {
     }
   },
 
-  getUserPreferences: async (userId) => {
-    
+  setUserPreference: async (userId, tags, categoryIds) => {
+    try {
+      const result = await User.updateOne(userId, { preference: { tags, categoryIds } }, { runValidators: true });
+
+      logger.info("userService.setUserPreference -> User preference updated");
+      return result
+    } catch (err) {
+      logger.error("ERROR userService.setUserPreference ->", err);
+      throw err
+    }
   },
 
-  setUserPreference: async (userId, data) => {
+  updateUserPreference: async (userId, tags, categoryId) => {
+    try {
+      const user = await User.findById(userId).select('preference')
 
-  },
+      // tambahkan preferemce baru ke array
+      const growthTags = user.preference.tags.concat(tags).filter((tag, index, self) => self.indexOf(tag) === index);
+      const growthCategoryIds = [...new Set([...user.preference.categoryIds, categoryId])];
 
-  updateUserPreferences: async (userId, data) => {
+      // lalu limit length preferencenya
+      const limitTags = growthTags.slice(-20);
+      const limitCategoryIds = growthCategoryIds.slice(-5);
+  
+      const result = await User.updateOne(userId, {
+        preference: {
+          tags: limitTags,
+          categoryIds: limitCategoryIds,
+        },
+      }, { runValidators: true });
 
+      logger.info("userService.updateUserPreference -> User preference updated");
+      return result
+    } catch (err) {
+      logger.error("ERROR userService.updateUserPreference ->", err);
+      throw err
+    }
   },
 
   updateUserById: async (userId, data) => {

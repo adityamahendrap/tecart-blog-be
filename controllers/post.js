@@ -4,6 +4,7 @@ import Post from "../models/post.js";
 import generateSlug from "../utils/generateSlug.js";
 import calculateReadingTime from "../utils/calculateReadingTime.js";
 import postService from "../services/postService.js";
+import userService from "../services/userService.js";
 import calculatePagination from "../utils/calculatePagination.js";
 
 export default {
@@ -25,12 +26,16 @@ export default {
 
   get: async (req, res, next) => {
     const { id } = req.params;
+    const { _id } = req.user
 
     try {
       const post = await postService.getPostById(id);
-
+      
       setCache(req, post);
-      return res.status(200).send({ message: "Post retrieved", data: post });
+      res.status(200).send({ message: "Post retrieved", data: post });
+
+      // growth user preferences when post selected
+      await userService.updateUserPreference(_id, post.tags, post.categoryId)
     } catch (err) {
       next(err);
     }

@@ -1,6 +1,7 @@
 import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
 import userService from "../services/userService.js";
+import category from "./category.js";
 
 export default {
   list: async (req, res, next) => {
@@ -36,6 +37,36 @@ export default {
       return res.status(200).send({ message: "User retrieved", data: user });
     } catch (err) {
       next(err);
+    }
+  },
+
+  // {
+  //   tags: [],
+  //   categoryIds: []
+  // }
+  setPreference: async (req, res, next) => {
+    const { _id } = req.user
+    const { tags, categoryIds } = req.body
+
+    try {
+      const preference = await userService.setUserPreference(_id, tags, categoryIds)
+
+      return res.send({ message: "User set preferences", data: preference })
+    } catch (err) {
+      next(err)
+    }
+  },
+
+  updatePreference: async (req, res, next) => {
+    const { _id } = req.user
+    const { tags, categoryIds } = req.body
+
+    try {
+      const preference = await userService.updateUserPreference(_id, tags, categoryIds)
+
+      return res.send({ message: "User set preferences", data: preference })
+    } catch (err) {
+      next(err)
     }
   },
 

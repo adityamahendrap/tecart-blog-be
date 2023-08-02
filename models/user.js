@@ -14,8 +14,8 @@ const userProfileSchema = new mongoose.Schema(
 
 const userPreferenceSchema = new mongoose.Schema(
   {
-    tags: { type: [String], max: 5 },
-    categoryIds: { type: [String], max: 5 }
+    tags: { type: [String] , default: [] },
+    categoryIds: { type: [String], default: [] }
   },
   { _id: false }
 );
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     profile: userProfileSchema,
     isVerified: { type: Boolean, default: false },
     oauth: { type: String, enum: ['Google', 'Github', null], default: null },
-    preferences: userPreferenceSchema
+    preference: userPreferenceSchema
   },
   {
     versionKey: false,
