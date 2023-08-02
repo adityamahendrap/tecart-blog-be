@@ -1,15 +1,16 @@
 import logger from "../utils/logger.js";
-import pagination from "../utils/pagination.js";
 import setCache from "../utils/setCache.js";
 import Post from "../models/post.js";
 import generateSlug from "../utils/generateSlug.js";
 import calculateReadingTime from "../utils/calculateReadingTime.js";
-import subscriptionHandler from "../utils/subscriptionHandler.js";
+import postService from '../services/postService.js';
+import calculatePagination from '../utils/calculatePagination.js';
 
 export default {
   list: async (req, res, next) => {
-    const { limit, skip, sort: sortQ, userId, categoryId, tags, status } = req.query;
-    
+    const { page, sort: sortQ, userId, categoryId, tags, status } = req.query;
+    const p = calculatePagination(page)
+
     const filter = {}
     if(categoryId) filter.categoryId = categoryId
     if(tags) filter.tags = { $in: tags }
@@ -24,13 +25,13 @@ export default {
     else if(sortQ === "newest") sort.createdAt = -1
     
     try {
-      const posts = await Post.find(filter).sort(sort);
-      const total = posts.length
+      const posts = await Post.find(filter).sort(sort).skip(p.skip).limit(p.limit)
 
-      logger.info("User accessed posts");
-      // setCache(req, next, data)
-      return res.status(200).send({ message: "Posts retrieved", total, data: posts });
+      logger.info("postController.list -> Posts retrieved");
+      setCache(req, next, posts)
+      return res.status(200).send({ message: "Posts retrieved", data: posts });
     } catch (err) {
+      logger.info("postController.list ->", err);
       next(err);
     }
   },
@@ -39,13 +40,9 @@ export default {
     const { id } = req.params;
 
     try {
-      const post = await Post.findById(id);
-      if (!post) {
-        return res.status(404).send({ message: "Post not found" });
-      }
+      const post = await postService.getPostById(id)
 
-      logger.info("User accessed post");
-      // setCache(req, next, post)
+      setCache(req, next, post)
       return res.status(200).send({ message: "Post retrieved", data: post });
     } catch (err) {
       next(err);
@@ -57,34 +54,9 @@ export default {
     const userId = req.user._id
 
     try {
-      const post = await Post.findById(id);
+      const relatedPosts = await postService.getRelatedPosts(id, userId)
 
-      const relatedPostsByCategory = await Post.find({
-        categoryId: post.categoryId,
-        _id: { $ne: post._id },
-        userId: { $ne: userId }
-      }).limit(2);
-
-      const relatedPostsByTags = await Post.find({
-        tags: { $in: post.tags },
-        _id: { $ne: post._id },
-        userId: { $ne: userId }
-      }).limit(2);
-
-      const relatedPostBySameAuthor = await Post.find({
-        userId: post.userId,
-        _id: { $ne: post._id },
-        userId: { $ne: userId }
-      }).limit(2);
-
-      return res.status(200).send({
-        message: "Related posts retrieved",
-        data: [
-          ...relatedPostBySameAuthor,
-          ...relatedPostsByCategory,
-          ...relatedPostsByTags,
-        ]
-      });
+      return res.status(200).send({ message: "Related posts retrieved", data: relatedPosts });
     } catch (err) {
       next(err);
     }
@@ -95,16 +67,11 @@ export default {
     const userId = req.user._id;
     const slug = generateSlug(title);
     const readingTime = calculateReadingTime(content);
+    const data = { ...req.body, slug, readingTime, userId }
 
     try {
-      const post = new Post({ ...req.body, slug, readingTime, userId });
-      await post.save();
+      const post = await postService.createPost(data)
 
-      // if(status === "Published") {
-      //   await subscriptionHandler(userId)
-      // }
-
-      logger.info("User created a post");
       return res.status(201).send({ message: "Post created", data: post });
     } catch (err) {
       next(err);
@@ -116,22 +83,12 @@ export default {
     const { title, content } = req.body;
     const slug = generateSlug(title);
     const readingTime = calculateReadingTime(content);
+    const data = { ...req.body, slug, readingTime }
 
     try {
-      // const preUpdatedPost = await Post.findById(id)
-      // if (!preUpdatedPost) {
-      //   return res.status(404).send({ message: "Post not found" });
-      // }
-
-      // const updatedPost = await Post.findByIdAndUpdate(id, { ...req.body, slug, readingTime }, { runValidators: true });
-      // if(preUpdatedPost.status === "Draft" && updatedPost === "Published") {
-      //   await subscriptionHandler(updatedPost.userId)
-      // }
-
-      await Post.findByIdAndUpdate(id, { ...req.body, slug, readingTime }, { runValidators: true });
-
-      logger.info("User updated post");
-      return res.status(201).send({ message: "Post updated" });
+      const post = await postService.updatePostById(id, data);
+      
+      return res.status(201).send({ message: "Post updated", data: post });
     } catch (err) {
       next(err);
     }
@@ -141,13 +98,9 @@ export default {
     const { id } = req.params;
 
     try {
-      const post = await Post.findByIdAndDelete(id);
-      if (!post) {
-        return res.status(404).send({ message: "Post not found" });
-      }
+      const post = await postService.deletePostById(id)
 
-      logger.info("User deleted post");
-      return res.status(200).send({ message: "Post deleted" });
+      return res.status(200).send({ message: "Post deleted", data: post });
     } catch (err) {
       next(err);
     }

@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     username: { type: String, unique: true, required: true },
     profile: userProfileSchema,
     isVerified: { type: Boolean, default: false },
+    oauth: { type: String, enum: ['Google', 'Github', null], default: null },
   },
   {
     versionKey: false,

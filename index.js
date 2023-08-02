@@ -2,8 +2,6 @@ import "dotenv/config";
 import express from "express";
 import mongoose from 'mongoose';
 import cors from "cors";
-import verifyUser from "./middlewares/verifyUser.js";
-import logging from "./middlewares/logging.js";
 import errHandler from "./middlewares/errHandler.js";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/user.js";
@@ -33,7 +31,6 @@ mongoose.connection.once('open', () => console.log('Database Connected'))
 
 app.use(express.json());
 app.use(cors());
-// app.use(logging);
 
 app.get("/", (req, res) => {
   res.status(200).send("Hello World");

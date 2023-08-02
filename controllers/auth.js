@@ -1,6 +1,5 @@
 import * as jose from "jose";
 import * as argon2 from "argon2";
-import sendEmail from '../utils/sendEmail.js';
 import randomstring from 'randomstring';
 import logger from '../utils/logger.js';
 import User from '../models/user.js';

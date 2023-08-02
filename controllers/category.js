@@ -1,5 +1,4 @@
 import logger from "../utils/logger.js";
-import pagination from "../utils/pagination.js";
 import setCache from "../utils/setCache.js";
 import Category from '../models/category.js';
 
@@ -64,6 +63,6 @@ export default {
       return res.status(200).send({ message: "Category deleted" });
     } catch (err) {
       next(err);
-    }
+  }
   },
 };

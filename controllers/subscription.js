@@ -1,5 +1,4 @@
 import logger from "../utils/logger.js";
-import pagination from "../utils/pagination.js";
 import setCache from "../utils/setCache.js";
 import Subscription from '../models/subscription.js';
 
