@@ -2,7 +2,7 @@ import { createClient } from "redis";
 import logger from "./logger.js";
 const client = createClient();
 
-export default async (req, next, data) => {
+export default async (req, data) => {
   const key = req.user.id + " " + req.method + " " + req.originalUrl;
 
   try {
@@ -13,7 +13,7 @@ export default async (req, next, data) => {
     await client.set(key, fdata, { EX: expirationTime });
     logger.info("Cache created");
   } catch (err) {
-    next(err);
+    throw err
   } finally {
     await client.disconnect();
   }
