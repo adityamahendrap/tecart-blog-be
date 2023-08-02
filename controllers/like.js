@@ -4,18 +4,13 @@ import Like from "../models/like.js";
 
 export default {
   list: async (req, res, next) => {
-    const { limit, skip } = req.query;
     const { postId } = req.params;
-
     try {
       const likes = await Like.find({ postId });
       const total = likes.length;
 
-      logger.info("User accessed likes");
-      // setCache(req, data)
-      return res
-        .status(200)
-        .send({ message: "Likes retrieved", total, data: likes });
+      setCache(req, data)
+      return res.status(200).send({ message: "Likes retrieved", total, data: likes });
     } catch (err) {
       next(err);
     }

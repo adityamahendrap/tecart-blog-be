@@ -12,10 +12,7 @@ export default {
     const { page } = req.query;
 
     try {
-      const posts = await postService.getPostsWithSortAndFilter(
-        page,
-        req.query
-      );
+      const posts = await postService.getPostsWithSortAndFilter(page, req.query);
 
       setCache(req, posts);
       return res.status(200).send({ message: "Posts retrieved", data: posts });

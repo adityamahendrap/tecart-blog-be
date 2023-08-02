@@ -72,6 +72,18 @@ const userService = {
       throw err;
     }
   },
+  
+  getUserPreference: async (userId) => {
+    try {
+      const preference = await User.findById(userId).select('preference')
+
+      logger.info("userService.getUserPreference -> User preference retrieved");
+      return preference
+    } catch (err) {
+      logger.error("ERROR userService.getUserPreference ->", err);
+      throw err;
+    }
+  },
 
   setUserPreference: async (userId, tags, categoryIds) => {
     try {
@@ -89,7 +101,7 @@ const userService = {
     try {
       const user = await User.findById(userId).select('preference')
 
-      // tambahkan preferemce baru ke array
+      // tambahkan preference baru ke array
       const growthTags = user.preference.tags.concat(tags).filter((tag, index, self) => self.indexOf(tag) === index);
       const growthCategoryIds = [...new Set([...user.preference.categoryIds, categoryId])];
 

@@ -57,19 +57,6 @@ export default {
     }
   },
 
-  updatePreference: async (req, res, next) => {
-    const { _id } = req.user
-    const { tags, categoryIds } = req.body
-
-    try {
-      const preference = await userService.updateUserPreference(_id, tags, categoryIds)
-
-      return res.send({ message: "User set preferences", data: preference })
-    } catch (err) {
-      next(err)
-    }
-  },
-
   update: async (req, res, next) => {
     const { id } = req.params;
 

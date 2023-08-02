@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import logger from "../utils/logger.js";
 
-const EmailService = {
+const emailService = {
   sendEmail: async (email, subject, text) => {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
@@ -39,4 +39,4 @@ const EmailService = {
   },
 }
 
-export default EmailService
+export default emailService

@@ -1,5 +1,5 @@
 const calculatePagination = (page) => {
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 20;
   const pageNumber = page ?? 1;
   const skipCount = (pageNumber - 1) * PAGE_SIZE;
 
