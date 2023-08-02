@@ -48,4 +48,14 @@ export default {
       next(err);
     }
   },
+
+  random: async (req, res, next) => {
+    const { total } = req.params;
+    try {
+      const posts = await postService.getRandomPosts(total);      
+      return res.status(200).send({ message: "Random posts retrieved", data: posts });
+    } catch (err) {
+      next(err);
+    }
+  }
 };

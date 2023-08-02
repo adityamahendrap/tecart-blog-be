@@ -221,6 +221,34 @@ const postService = {
       throw err
     }
   },
+  
+  getRandomPosts: async (total) => {
+    try {
+      if(typeof total !== 'number' || total < 1) {
+        total = 20
+      }
+
+      const posts = await YourModel.aggregate([
+        { $sample: { size: total } }
+      ]);
+      
+      logger.info('postService.getRandomPosts -> Random posts retrieved')
+      return posts;
+    } catch (err) {
+      logger.error('ERROR postService.getRandomPosts ->', err)
+      throw err;
+    }
+  },
+  
+  getTagsInPosts: async () => {
+    try {
+      const tags = await Post.distinct('tags');
+      return tags;
+    } catch (err) {
+      logger.error('ERROR postService.getTagsInPosts ->', err)
+      throw err
+    }
+  },
 
   createPost: async (data) => {
     try {

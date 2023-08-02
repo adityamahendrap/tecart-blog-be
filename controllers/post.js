@@ -1,11 +1,8 @@
-import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
-import Post from "../models/post.js";
 import generateSlug from "../utils/generateSlug.js";
 import calculateReadingTime from "../utils/calculateReadingTime.js";
 import postService from "../services/postService.js";
 import userService from "../services/userService.js";
-import calculatePagination from "../utils/calculatePagination.js";
 
 export default {
   list: async (req, res, next) => {
@@ -45,9 +42,17 @@ export default {
     try {
       const relatedPosts = await postService.getRelatedPosts(id, userId);
 
-      return res
-        .status(200)
-        .send({ message: "Related posts retrieved", data: relatedPosts });
+      return res.status(200).send({ message: "Related posts retrieved", data: relatedPosts });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  tags: async (req, res, next) => {
+    try {
+      const tags = await postService.getTagsInPosts()
+
+      return res.status(200).send({ message: "Tags retrieved", data: tags });
     } catch (err) {
       next(err);
     }
@@ -68,6 +73,7 @@ export default {
       next(err);
     }
   },
+  
 
   update: async (req, res, next) => {
     const { id } = req.params;
