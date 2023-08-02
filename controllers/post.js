@@ -8,30 +8,14 @@ import calculatePagination from '../utils/calculatePagination.js';
 
 export default {
   list: async (req, res, next) => {
-    const { page, sort: sortQ, userId, categoryId, tags, status } = req.query;
-    const p = calculatePagination(page)
+    const { page } = req.query
 
-    const filter = {}
-    if(categoryId) filter.categoryId = categoryId
-    if(tags) filter.tags = { $in: tags }
-    if(status) filter.status = { $regex: status, $options: 'i' } // published, draft
-    if(userId) filter.userId = userId === 'me' ? req.user._id : userId
-    
-    // az, za, newest, oldest
-    const sort = {}
-    if(sortQ === "az") sort.title = 1
-    else if(sortQ === "za") sort.title = -1
-    else if(sortQ === "oldest") sort.createdAt = 1
-    else if(sortQ === "newest") sort.createdAt = -1
-    
     try {
-      const posts = await Post.find(filter).sort(sort).skip(p.skip).limit(p.limit)
+      const posts = await postService.getPostsWithSortAndFilter(page, req.query)
 
-      logger.info("postController.list -> Posts retrieved");
       setCache(req, next, posts)
       return res.status(200).send({ message: "Posts retrieved", data: posts });
     } catch (err) {
-      logger.info("postController.list ->", err);
       next(err);
     }
   },

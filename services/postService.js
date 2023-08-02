@@ -1,13 +1,50 @@
 import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
 import Post from "../models/post.js";
-import generateSlug from "../utils/generateSlug.js";
-import calculateReadingTime from "../utils/calculateReadingTime.js";
-import subscriptionHandler from "../utils/subscriptionHandler.js";
 import ResponseError from "../utils/responseError.js";
 import calculatePagination from '../utils/calculatePagination.js';
 
 const postService = {
+  getPosts: async (page) => {
+    const p = calculatePagination(page)
+    try {
+      const posts = await Post.find().limit(p.limit).skip(p.skip)
+
+      logger.info('postService.getPosts -> Posts retrieved')
+      return posts
+    } catch (err) {
+      logger.info('ERROR postService.getPosts ->', err)
+      throw err
+    }
+  },
+
+  getPostsWithSortAndFilter: async (page, requestQuery) => {
+    const { sort: sortQ, userId, categoryId, tags, status } = requestQuery;
+    const p = calculatePagination(page)
+
+    const filter = {}
+    if(categoryId) filter.categoryId = categoryId
+    if(tags) filter.tags = { $in: tags }
+    if(status) filter.status = { $regex: status, $options: 'i' } // published, draft
+    if(userId) filter.userId = userId === 'me' ? req.user._id : userId
+    
+    const sort = {}
+    if(sortQ === "az") sort.title = 1
+    else if(sortQ === "za") sort.title = -1
+    else if(sortQ === "oldest") sort.createdAt = 1
+    else if(sortQ === "newest") sort.createdAt = -1
+
+    try {
+      const posts = await Post.find(filter).sort(sort).skip(p.skip).limit(p.limit)
+
+      logger.info('postService.getPostsWithSortAndFilter -> Posts retrieved')
+      return posts      
+    } catch (err) {
+      logger.info('ERROR postService.getPostsWithSortAndFilter ->', err)
+      next(err)
+    }
+  },
+
   getPostById: async (postId) => {
     try {
       const post = await Post.findById(postId)
