@@ -9,10 +9,8 @@ import calculatePagination from "../utils/calculatePagination.js";
 const userService = {
   getUsers: async (page) => {
     const p = calculatePagination(page);
-
     try {
       const users = await User.find().skip(p.skip).limit(p.limit);
-
       logger.info("userService.getUsers -> Users retrieved");
       return users;
     } catch (err) {
@@ -24,7 +22,6 @@ const userService = {
   getUsersWithSort: async (page, sortBy) => {
     let query, users;
     const p = calculatePagination(page);
-
     try {
       if (["mostposts", "fewestposts"].includes(sortBy)) {
         query = [
