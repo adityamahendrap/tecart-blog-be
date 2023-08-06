@@ -1,6 +1,6 @@
 import { Router } from "express";
-import categoryController from '../controllers/category.js';
-import verifyUser from '../middlewares/verifyUser.js';
+import categoryController from "../controllers/category.controller.js";
+import verifyUser from "../middlewares/verifyUser.js";
 const router = Router();
 
 router.get("/", verifyUser, categoryController.list);

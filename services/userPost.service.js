@@ -1,16 +1,16 @@
 import logger from "../utils/logger.js";
-import ResponseError from "../utils/responseError.js";
-import Comment from "../models/comment.js";
-import Like from "../models/like.js";
-import Share from "../models/share.js";
+import ResponseError from "../errors/ResponseError.js";
+import Comment from "../models/comment.model.js";
+import Like from "../models/like.model.js";
+import Share from "../models/share.model.js";
 
 const userPostService = {
   getTotalLikesInPost: async (postId) => {
     try {
       const count = await Like.countDocuments({ postId });
-      return count
+      return count;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -23,10 +23,10 @@ const userPostService = {
 
       const like = new Like({ postId, userId });
       await like.save();
-  
-      return like
+
+      return like;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -36,9 +36,9 @@ const userPostService = {
       if (!isLiked) {
         return res.status(404).send({ message: "Like not found" });
       }
-      return isLiked
+      return isLiked;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -46,9 +46,9 @@ const userPostService = {
     try {
       const share = new Share({ postId, userId, content });
       await share.save();
-      return share
+      return share;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -60,65 +60,69 @@ const userPostService = {
         },
         {
           $lookup: {
-            from: 'posts',
-            localField: 'postId',
-            foreignField: '_id',
-            as: 'post',
+            from: "posts",
+            localField: "postId",
+            foreignField: "_id",
+            as: "post",
           },
         },
         {
-          $unwind: '$post',
+          $unwind: "$post",
         },
       ]);
-      return posts
+      return posts;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
   updateSharedPost: async (shareId, content) => {
     try {
-      const updated = await Share.findByIdAndUpdate(id, req.body, { runValidators: true,});
+      const updated = await Share.findByIdAndUpdate(id, req.body, {
+        runValidators: true,
+      });
       if (!updated) {
         throw ResponseError(404, "Share not found");
       }
-      return updated
+      return updated;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
   deleteSharedPost: async (shareId) => {
     try {
-      const deleted = await Share.findByIdAndDelete(shareId)
+      const deleted = await Share.findByIdAndDelete(shareId);
       if (!updated) {
         throw ResponseError(404, "Share not found");
       }
-      return deleted
+      return deleted;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
   createComment: async (userId, data) => {
     try {
-      const comment = new Comment({ userId, ...data});
+      const comment = new Comment({ userId, ...data });
       await comment.save();
-      return comment
+      return comment;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
   updateComment: async (commentId, data) => {
     try {
-      const comment = await Comment.findByIdAndUpdate(commentId, data, { runValidators: true });
+      const comment = await Comment.findByIdAndUpdate(commentId, data, {
+        runValidators: true,
+      });
       if (!comment) {
         throw new ResponseError(404, "Comment not found");
       }
-      return comment
+      return comment;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -132,19 +136,18 @@ const userPostService = {
         return res.status(404).send({ message: "Comment not found" });
       }
       // also delete child commnnt with parent id deleted comment
-      await Comment.deleteMany({ parentId: commentId })
+      await Comment.deleteMany({ parentId: commentId });
 
       await session.commitTransaction();
       session.endSession();
 
-      return comment
+      return comment;
     } catch (err) {
       await session.abortTransaction();
       session.endSession();
-      throw err
+      throw err;
     }
-  }
-
-}
+  },
+};
 
 export default userPostService;

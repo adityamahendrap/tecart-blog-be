@@ -1,64 +1,67 @@
 import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
-import Post from "../models/post.js";
-import Category from "../models/category.js";
-import ResponseError from "../utils/responseError.js";
-import calculatePagination from '../utils/calculatePagination.js';
-import userService from './userService.js';
+import Post from "../models/post.model.js";
+import Category from "../models/category.model.js";
+import ResponseError from "../errors/ResponseError.js";
+import calculatePagination from "../utils/calculatePagination.js";
+import userService from "./user.service.js";
 
 const postService = {
   getPosts: async (page) => {
-    const p = calculatePagination(page)
+    const p = calculatePagination(page);
     try {
-      const posts = await Post.find().limit(p.limit).skip(p.skip)
+      const posts = await Post.find().limit(p.limit).skip(p.skip);
 
-      logger.info('postService.getPosts -> Posts retrieved')
-      return posts
+      logger.info("postService.getPosts -> Posts retrieved");
+      return posts;
     } catch (err) {
-      logger.info('ERROR postService.getPosts ->', err)
-      throw err
+      logger.info("ERROR postService.getPosts ->", err);
+      throw err;
     }
   },
 
   getPostsWithSortAndFilter: async (page, requestQuery) => {
     const { sort: sortQ, userId, categoryId, tags, status } = requestQuery;
-    const p = calculatePagination(page)
+    const p = calculatePagination(page);
 
-    const filter = {}
-    if(categoryId) filter.categoryId = categoryId
-    if(tags) filter.tags = { $in: tags }
-    if(status) filter.status = { $regex: status, $options: 'i' } // published, draft
-    if(userId) filter.userId = userId
-    
-    const sort = {}
-    if(sortQ === "az") sort.title = 1
-    else if(sortQ === "za") sort.title = -1
-    else if(sortQ === "oldest") sort.createdAt = 1
-    else if(sortQ === "newest") sort.createdAt = -1
+    const filter = {};
+    if (categoryId) filter.categoryId = categoryId;
+    if (tags) filter.tags = { $in: tags };
+    if (status) filter.status = { $regex: status, $options: "i" }; // published, draft
+    if (userId) filter.userId = userId;
+
+    const sort = {};
+    if (sortQ === "az") sort.title = 1;
+    else if (sortQ === "za") sort.title = -1;
+    else if (sortQ === "oldest") sort.createdAt = 1;
+    else if (sortQ === "newest") sort.createdAt = -1;
 
     try {
-      const posts = await Post.find(filter).sort(sort).skip(p.skip).limit(p.limit)
+      const posts = await Post.find(filter)
+        .sort(sort)
+        .skip(p.skip)
+        .limit(p.limit);
 
-      logger.info('postService.getPostsWithSortAndFilter -> Posts retrieved')
-      return posts
+      logger.info("postService.getPostsWithSortAndFilter -> Posts retrieved");
+      return posts;
     } catch (err) {
-      logger.info('ERROR postService.getPostsWithSortAndFilter ->', err)
-      next(err)
+      logger.info("ERROR postService.getPostsWithSortAndFilter ->", err);
+      next(err);
     }
   },
 
   getPostById: async (postId) => {
     try {
-      const post = await Post.findById(postId)
-      if(!post) {
+      const post = await Post.findById(postId);
+      if (!post) {
         throw new ResponseError(404, `Post with id ${postId} not found`);
       }
 
-      logger.info('postService.getPostById -> Post retrieved')
-      return post
+      logger.info("postService.getPostById -> Post retrieved");
+      return post;
     } catch (err) {
-      logger.error('ERROR postService.getPostById ->', err)
-      throw err
+      logger.error("ERROR postService.getPostById ->", err);
+      throw err;
     }
   },
 
@@ -70,36 +73,36 @@ const postService = {
       const relatedPostsByCategory = await Post.find({
         categoryId: post.categoryId,
         _id: { $ne: post._id },
-        userId: { $ne: userId }
+        userId: { $ne: userId },
       }).limit(2);
 
       const relatedPostsByTags = await Post.find({
         tags: { $in: post.tags },
         _id: { $ne: post._id },
-        userId: { $ne: userId }
+        userId: { $ne: userId },
       }).limit(2);
 
       const relatedPostBySameAuthor = await Post.find({
         userId: post.userId,
         _id: { $ne: post._id },
-        userId: { $ne: userId }
+        userId: { $ne: userId },
       }).limit(2);
 
-      logger.info('postService.getRelatedPosts -> Related posts retrieved')
+      logger.info("postService.getRelatedPosts -> Related posts retrieved");
       return [
         ...relatedPostBySameAuthor,
         ...relatedPostsByCategory,
-        ...relatedPostsByTags
-      ]
+        ...relatedPostsByTags,
+      ];
     } catch (err) {
-      logger.error('ERROR postService.getRelatedPosts ->', err)
-      throw err
+      logger.error("ERROR postService.getRelatedPosts ->", err);
+      throw err;
     }
   },
 
   // base on user
   getRelevantPosts: async (userId, page) => {
-    const p = calculatePagination(page)
+    const p = calculatePagination(page);
 
     try {
       // Posts dari user yang di follow
@@ -128,47 +131,50 @@ const postService = {
       });
 
       // posts berdasarkan user preference saat ini
-      const { preference } = await userService.getUserPreference(userId)
+      const { preference } = await userService.getUserPreference(userId);
       const relevantPostsByUserPreference = await Post.find({
         $or: [
           { tags: { $in: preference.tags } },
-          { categoryId: { $in: preference.categoryIds } }
-        ]
-      })
+          { categoryId: { $in: preference.categoryIds } },
+        ],
+      });
 
       const data = [
         ...relevantPostsByFollowings,
         ...relevantPostsByLikedPostsInSameCategory,
         ...relevantPostsByLikedPostsTags,
-        ...relevantPostsByUserPreference
-      ]
-      
-      logger.info('postService.getRelevantPosts -> Relevant posts retrieved')
-      setCache(req, data)
-      return data
+        ...relevantPostsByUserPreference,
+      ];
+
+      logger.info("postService.getRelevantPosts -> Relevant posts retrieved");
+      setCache(req, data);
+      return data;
     } catch (err) {
-      logger.error('ERROR postService.getRelevantPosts ->', err)
-      throw err
+      logger.error("ERROR postService.getRelevantPosts ->", err);
+      throw err;
     }
   },
-  
+
   getLatestPosts: async (page) => {
-    const p = calculatePagination(page)
+    const p = calculatePagination(page);
 
     try {
-      const posts = await Post.find({}).sort({ createdAt: 1 }).skip(p.skip).limit(p.limit)
-      
-      logger.info('postService.getLatestPosts -> Latest posts retrieved')
-      setCache(req, data)
-      return posts
+      const posts = await Post.find({})
+        .sort({ createdAt: 1 })
+        .skip(p.skip)
+        .limit(p.limit);
+
+      logger.info("postService.getLatestPosts -> Latest posts retrieved");
+      setCache(req, data);
+      return posts;
     } catch (err) {
-      logger.info('ERROR postService.getLatestPosts ->', err)
-      throw err
+      logger.info("ERROR postService.getLatestPosts ->", err);
+      throw err;
     }
   },
 
   getTopPosts: async (page) => {
-    const p = calculatePagination(page)
+    const p = calculatePagination(page);
 
     try {
       const posts = await Post.aggregate([
@@ -212,42 +218,42 @@ const postService = {
         },
         {
           $sort: { totalScore: -1 },
-        }
-      ]).skip(p.limit).skip(p.skip)
-      
-      logger.info('postService.getTopPosts -> Top posts retrieved')
-      return posts
-    } catch (err) {
-      logger.error('ERROR postService.getTopPosts ->', err)
-      throw err
-    }
-  },
-  
-  getRandomPosts: async (total) => {
-    try {
-      if(typeof total !== 'number' || total < 1) {
-        total = 20
-      }
+        },
+      ])
+        .skip(p.limit)
+        .skip(p.skip);
 
-      const posts = await YourModel.aggregate([
-        { $sample: { size: total } }
-      ]);
-      
-      logger.info('postService.getRandomPosts -> Random posts retrieved')
+      logger.info("postService.getTopPosts -> Top posts retrieved");
       return posts;
     } catch (err) {
-      logger.error('ERROR postService.getRandomPosts ->', err)
+      logger.error("ERROR postService.getTopPosts ->", err);
       throw err;
     }
   },
-  
+
+  getRandomPosts: async (total) => {
+    try {
+      if (typeof total !== "number" || total < 1) {
+        total = 20;
+      }
+
+      const posts = await YourModel.aggregate([{ $sample: { size: total } }]);
+
+      logger.info("postService.getRandomPosts -> Random posts retrieved");
+      return posts;
+    } catch (err) {
+      logger.error("ERROR postService.getRandomPosts ->", err);
+      throw err;
+    }
+  },
+
   getTagsInPosts: async () => {
     try {
-      const tags = await Post.distinct('tags');
+      const tags = await Post.distinct("tags");
       return tags;
     } catch (err) {
-      logger.error('ERROR postService.getTagsInPosts ->', err)
-      throw err
+      logger.error("ERROR postService.getTagsInPosts ->", err);
+      throw err;
     }
   },
 
@@ -257,10 +263,13 @@ const postService = {
     else if (sortRequest === "za") sort.name = -1;
 
     try {
-      const categories = await Category.find({}).sort(sort).skip(p.skip).limit(p.limit)
-      return categories
+      const categories = await Category.find({})
+        .sort(sort)
+        .skip(p.skip)
+        .limit(p.limit);
+      return categories;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -279,12 +288,12 @@ const postService = {
           },
         },
       ]);
-      const categoryIds = popularCategories.map((category) => category._id);  
+      const categoryIds = popularCategories.map((category) => category._id);
       const categories = await Category.find({ _id: { $in: categoryIds } });
 
       return categories;
     } catch (err) {
-      throw err
+      throw err;
     }
   },
 
@@ -293,40 +302,42 @@ const postService = {
       const post = new Post(data);
       await post.save();
 
-      logger.info('postService.createPost -> Post created')
-      return post
+      logger.info("postService.createPost -> Post created");
+      return post;
     } catch (err) {
-      logger.error('ERROR postService.createPost ->', err)
-      throw err
+      logger.error("ERROR postService.createPost ->", err);
+      throw err;
     }
   },
 
   updatePostById: async (postId, data) => {
     try {
-      const post = await Post.findByIdAndUpdate(postId, data, { runValidators: true });
+      const post = await Post.findByIdAndUpdate(postId, data, {
+        runValidators: true,
+      });
 
-      logger.info('postService.updatePostById -> Post updated')
-      return post
+      logger.info("postService.updatePostById -> Post updated");
+      return post;
     } catch (err) {
-      logger.error('ERROR postService.updatePostById ->', err)
-      throw err
+      logger.error("ERROR postService.updatePostById ->", err);
+      throw err;
     }
   },
 
   deletePostById: async (postId) => {
     try {
-      const post = await Post.findByIdAndDelete(postId)
-      if(!post) {
+      const post = await Post.findByIdAndDelete(postId);
+      if (!post) {
         throw new ResponseError(404, `Post with id ${postId} not found`);
       }
 
-      logger.info('postService.deletePostById -> Post deleted')
-      return post
+      logger.info("postService.deletePostById -> Post deleted");
+      return post;
     } catch (err) {
-      logger.error('ERROR postService.deletePostById ->', err)
-      throw err
+      logger.error("ERROR postService.deletePostById ->", err);
+      throw err;
     }
   },
-}
+};
 
-export default postService
+export default postService;

@@ -1,5 +1,5 @@
 import setCache from "../utils/setCache.js";
-import userService from "../services/userService.js";
+import userService from "../services/user.service.js";
 
 export default {
   list: async (req, res, next) => {
@@ -10,7 +10,7 @@ export default {
       "mostfollowers",
       "fewestfollowers",
     ];
-    
+
     let users;
     try {
       if (availableSort.includes(sort))
@@ -40,13 +40,17 @@ export default {
   //   categoryIds: []
   // }
   setPreference: async (req, res, next) => {
-    const { _id } = req.user
-    const { tags, categoryIds } = req.body
+    const { _id } = req.user;
+    const { tags, categoryIds } = req.body;
     try {
-      const preference = await userService.setUserPreference(_id, tags, categoryIds)
-      return res.send({ message: "User set preferences", data: preference })
+      const preference = await userService.setUserPreference(
+        _id,
+        tags,
+        categoryIds
+      );
+      return res.send({ message: "User set preferences", data: preference });
     } catch (err) {
-      next(err)
+      next(err);
     }
   },
 

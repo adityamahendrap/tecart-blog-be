@@ -1,6 +1,6 @@
 import setCache from "../utils/setCache.js";
-import Like from "../models/like.js";
-import userPostService from '../services/userPostService.js';
+import Like from "../models/like.model.js";
+import userPostService from "../services/userPost.service.js";
 
 export default {
   list: async (req, res, next) => {
@@ -8,8 +8,10 @@ export default {
     try {
       const likes = await Like.find({ postId });
       const total = likes.length;
-      setCache(req, data)
-      return res.status(200).send({ message: "Likes retrieved", total, data: likes });
+      setCache(req, data);
+      return res
+        .status(200)
+        .send({ message: "Likes retrieved", total, data: likes });
     } catch (err) {
       next(err);
     }
@@ -19,8 +21,10 @@ export default {
     const { postId } = req.params;
     try {
       const count = await userPostService.getTotalLikesInPost(postId);
-      setCache(req, data)
-      return res.status(200).send({ message: "Total likes retrieved", data: count });
+      setCache(req, data);
+      return res
+        .status(200)
+        .send({ message: "Total likes retrieved", data: count });
     } catch (err) {
       next(err);
     }
@@ -40,7 +44,7 @@ export default {
   delete: async (req, res, next) => {
     const { id } = req.params;
     try {
-      const deleted = await userPostService.unlikePost(id)
+      const deleted = await userPostService.unlikePost(id);
       return res.status(200).send({ message: "Like deleted", data: deleted });
     } catch (err) {
       next(err);

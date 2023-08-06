@@ -1,14 +1,17 @@
 import setCache from "../utils/setCache.js";
 import generateSlug from "../utils/generateSlug.js";
 import calculateReadingTime from "../utils/calculateReadingTime.js";
-import postService from "../services/postService.js";
-import userService from "../services/userService.js";
+import postService from "../services/post.service.js";
+import userService from "../services/user.service.js";
 
 export default {
   list: async (req, res, next) => {
     const { page } = req.query;
     try {
-      const posts = await postService.getPostsWithSortAndFilter(page, req.query);
+      const posts = await postService.getPostsWithSortAndFilter(
+        page,
+        req.query
+      );
       setCache(req, posts);
       return res.status(200).send({ message: "Posts retrieved", data: posts });
     } catch (err) {
@@ -18,14 +21,14 @@ export default {
 
   get: async (req, res, next) => {
     const { id } = req.params;
-    const { _id } = req.user
+    const { _id } = req.user;
     try {
       const post = await postService.getPostById(id);
       setCache(req, post);
       res.status(200).send({ message: "Post retrieved", data: post });
 
       // growth user preferences when post selected
-      await userService.updateUserPreference(_id, post.tags, post.categoryId)
+      await userService.updateUserPreference(_id, post.tags, post.categoryId);
     } catch (err) {
       next(err);
     }
@@ -36,7 +39,9 @@ export default {
     const userId = req.user._id;
     try {
       const relatedPosts = await postService.getRelatedPosts(id, userId);
-      return res.status(200).send({ message: "Related posts retrieved", data: relatedPosts });
+      return res
+        .status(200)
+        .send({ message: "Related posts retrieved", data: relatedPosts });
     } catch (err) {
       next(err);
     }
@@ -44,7 +49,7 @@ export default {
 
   tags: async (req, res, next) => {
     try {
-      const tags = await postService.getTagsInPosts()
+      const tags = await postService.getTagsInPosts();
       return res.status(200).send({ message: "Tags retrieved", data: tags });
     } catch (err) {
       next(err);
@@ -64,7 +69,6 @@ export default {
       next(err);
     }
   },
-  
 
   update: async (req, res, next) => {
     const { id } = req.params;

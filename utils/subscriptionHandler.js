@@ -2,6 +2,7 @@ import sendEmail from "./sendEmail.js";
 import User from "../models/user.js";
 import Subscription from "../models/subscription.js";
 
+// this is dangerous
 export default async (targetId) => {
   try {
     const user = await User.findById(targetId)

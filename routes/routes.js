@@ -1,13 +1,13 @@
-import authController from '../controllers/auth.js';
-import categoryController from '../controllers/category.js';
-import commentController from '../controllers/comment.js';
-import followController from '../controllers/follow.js';
-import likeController from '../controllers/like.js';
-import postController from '../controllers/post.js';
-import shareController from '../controllers/share.js';
-import subscriptionController from '../controllers/subscription.js';
-import userController from '../controllers/user.js';
-import feedController from '../controllers/feed.js';
+import authController from "../controllers/auth.controller.js";
+import categoryController from "../controllers/category.controller.js";
+import commentController from "../controllers/comment.controller.js";
+import followController from "../controllers/follow.controller.js";
+import likeController from "../controllers/like.controller.js";
+import postController from "../controllers/post.controller.js";
+import shareController from "../controllers/share.controller.js";
+import subscriptionController from "../controllers/subscription.controller.js";
+import userController from "../controllers/user.controller.js";
+import feedController from "../controllers/feed.controller.js";
 import { Router } from "express";
 const router = Router();
 
@@ -35,7 +35,7 @@ const path = {
   CREATE_POST_SELF: "/posts",
   UPDATE_POST: "/posts/:id",
   DELETE_POST: "/posts/:id",
-  
+
   GET_RANDOM_POSTS_FOR_FEEDS: "/feeds/random/:total",
   GET_RELEVANT_POSTS_FOR_FEEDS: "/feeds/relevant",
   GET_LATEST_POSTS_FOR_FEEDS: "/feeds/latest",
@@ -49,7 +49,7 @@ const path = {
   GET_LIKED_POSTS_BY_USER_SELF: "/likes",
   LIKE_POST_SELF: "/likes/:postId",
   UNLIKE_POST: "/likes/:id",
-  
+
   GET_COMMENTS_IN_POSTS: "/comments/:postId",
   GET_ROOT_COMMENTS_IN_POSTS: "/comments/:postId",
   GET_REPLY_COMMENTS_IN_POSTS: "/comments/:commentId",
@@ -61,7 +61,7 @@ const path = {
   GET_FOLLOWINGS: "/follows/followings/:userId",
   FOLLOW_USER_SELF: "/follows/:userId",
   UNFOLLOW_USER_SELF: "/follows/:userId",
-  
+
   GET_NOTIFICATIONS_SELF: "/notifications",
 };
 
@@ -69,13 +69,21 @@ router.post(path.LOGIN, authController.login);
 router.post(path.REGISTER, authController.register);
 router.post(path.VERIFY_TOKEN, authController.verifyToken);
 router.get(path.VERIFY_EMAIL, authController.verifyEmail);
-router.get(path.SEND_EMAIL_VERIFICATION, verifyUser, authController.sendEmailVerification);
+router.get(
+  path.SEND_EMAIL_VERIFICATION,
+  verifyUser,
+  authController.sendEmailVerification
+);
 router.put(path.CHANGE_PASSWORD, verifyUser, authController.changePassword);
 router.put(path.RESET_PASSWORD, authController.resetPassword);
 
 router.get(path.GET_USERS, userController.list);
 router.get(path.GET_USER, userController.get);
-router.put(path.SET_NEW_USER_PREFERENCE_SELF, verifyUser, userController.update);
+router.put(
+  path.SET_NEW_USER_PREFERENCE_SELF,
+  verifyUser,
+  userController.update
+);
 router.put(path.UPDATE_USER_SELF, verifyUser, userController.update);
 router.delete(path.DELETE_ACCOUNT_SELF, verifyUser, userController.delete);
 
@@ -87,9 +95,13 @@ router.put(path.UPDATE_POST, verifyUser, postController.update);
 router.delete(path.DELETE_POST, verifyUser, postController.delete);
 
 router.get(path.GET_RANDOM_POSTS_FOR_FEEDS, verifyUser, feedController.random);
-router.get(path.GET_RELEVANT_POSTS_FOR_FEEDS, verifyUser, feedController.relevant);
+router.get(
+  path.GET_RELEVANT_POSTS_FOR_FEEDS,
+  verifyUser,
+  feedController.relevant
+);
 router.get(path.GET_LATEST_POSTS_FOR_FEEDS, verifyUser, feedController.latest);
 router.get(path.GET_TOP_POSTS_FOR_FEEDS, verifyUser, feedController.top);
 
-router.get(path.GET_CATEGORIES, categoryController.list)
-router.get(path.GET_POPULAR_CATEGORIES, categoryController.popular)
+router.get(path.GET_CATEGORIES, categoryController.list);
+router.get(path.GET_POPULAR_CATEGORIES, categoryController.popular);

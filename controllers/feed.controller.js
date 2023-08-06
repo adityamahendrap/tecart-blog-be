@@ -1,5 +1,5 @@
-import postService from '../services/postService.js';
-import setCache from '../utils/setCache.js';
+import postService from "../services/post.service.js";
+import setCache from "../utils/setCache.js";
 
 export default {
   /*
@@ -12,9 +12,11 @@ export default {
     const { page } = req.query;
     const userId = req.user._id;
     try {
-      const relevant = await postService.getRelevantPosts(userId, page)
-      setCache(req, relevant)
-      return res.status(200).send({ message: "Relevant posts retrieved", data: relevant });
+      const relevant = await postService.getRelevantPosts(userId, page);
+      setCache(req, relevant);
+      return res
+        .status(200)
+        .send({ message: "Relevant posts retrieved", data: relevant });
     } catch (err) {
       next(err);
     }
@@ -28,8 +30,10 @@ export default {
     const { page } = req.query;
     try {
       const posts = await postService.getLatestPosts(page);
-      setCache(req, posts)
-      return res.status(200).send({ message: "Latest posts retrieved", data: posts });
+      setCache(req, posts);
+      return res
+        .status(200)
+        .send({ message: "Latest posts retrieved", data: posts });
     } catch (err) {
       next(err);
     }
@@ -45,9 +49,11 @@ export default {
   top: async (req, res, next) => {
     const { page } = req.query;
     try {
-      const posts = await postService.getTopPosts(page);      
-      setCache(req, posts)
-      return res.status(200).send({ message: "Top posts retrieved", data: posts });
+      const posts = await postService.getTopPosts(page);
+      setCache(req, posts);
+      return res
+        .status(200)
+        .send({ message: "Top posts retrieved", data: posts });
     } catch (err) {
       next(err);
     }
@@ -56,10 +62,12 @@ export default {
   random: async (req, res, next) => {
     const { total } = req.params;
     try {
-      const posts = await postService.getRandomPosts(total);      
-      return res.status(200).send({ message: "Random posts retrieved", data: posts });
+      const posts = await postService.getRandomPosts(total);
+      return res
+        .status(200)
+        .send({ message: "Random posts retrieved", data: posts });
     } catch (err) {
       next(err);
     }
-  }
+  },
 };
