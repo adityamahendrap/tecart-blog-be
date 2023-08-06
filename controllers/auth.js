@@ -1,7 +1,3 @@
-import * as jose from "jose";
-import * as argon2 from "argon2";
-import randomstring from 'randomstring';
-import logger from '../utils/logger.js';
 import User from '../models/user.js';
 import authService from '../services/authService.js';
 import emailService from '../services/emailService.js';
@@ -9,12 +5,11 @@ import emailService from '../services/emailService.js';
 export default  {
   register: async (req, res, next) => {
     const { username, email, password, confirmPassword } = req.body
-
     try {
       const createdUser = await authService.register(username, email, password, confirmPassword)
-      
       res.status(201).send({ message: "Register success, please check your email to verify your account" })
 
+      // send email confirmation
       const verificationEndpoint = `${process.env.API_ENDPOINT}/api/auth/verify-email/${createdUser._id}`
       await emailService.sendEmail(createdUser.email, 'Email Verification', verificationEndpoint)
     } catch (err) {
@@ -24,7 +19,6 @@ export default  {
 
   login: async (req, res, next) => {
     const { email, password } = req.body
-
     try {
       const token = await authService.login(email, password)
       return res.status(200).send({ token })
@@ -35,7 +29,6 @@ export default  {
 
   sendEmailVerification: async (req, res, next) => {
     const { _id, email } = req.user
-
     try {
       const verificationEndpoint = `${process.env.API_ENDPOINT}/api/auth/verify-email/${_id}`
       await emailService.sendEmail(email, 'Email Verification', verificationEndpoint)
@@ -62,7 +55,6 @@ export default  {
 
   verifyEmail: async (req, res, next) => {
     const { id } = req.params
-
     try {
       await User.updateOne({ _id: id }, { isVerified: true })
       return res.status(201).send({ message: "Email verified" })
@@ -73,7 +65,6 @@ export default  {
 
   resetPassword: async (req, res, next) => {
     const { email } = req.body
-
     try {
       await authService.resetPassword(email)
       return res.status(201).send({ message: "Password reseted, please check your email" })
@@ -85,7 +76,6 @@ export default  {
   changePassword: async (req, res, next) => {
     let { currentPassword, newPassword } = req.body
     const { _id } = req.user
-
     try {
       await authService.changePassword(_id, currentPassword, newPassword)
       return res.status(201).send({ message: "Password updated"})

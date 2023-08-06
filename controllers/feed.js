@@ -1,4 +1,5 @@
 import postService from '../services/postService.js';
+import setCache from '../utils/setCache.js';
 
 export default {
   /*
@@ -12,6 +13,7 @@ export default {
     const userId = req.user._id;
     try {
       const relevant = await postService.getRelevantPosts(userId, page)
+      setCache(req, relevant)
       return res.status(200).send({ message: "Relevant posts retrieved", data: relevant });
     } catch (err) {
       next(err);
@@ -26,6 +28,7 @@ export default {
     const { page } = req.query;
     try {
       const posts = await postService.getLatestPosts(page);
+      setCache(req, posts)
       return res.status(200).send({ message: "Latest posts retrieved", data: posts });
     } catch (err) {
       next(err);
@@ -43,6 +46,7 @@ export default {
     const { page } = req.query;
     try {
       const posts = await postService.getTopPosts(page);      
+      setCache(req, posts)
       return res.status(200).send({ message: "Top posts retrieved", data: posts });
     } catch (err) {
       next(err);

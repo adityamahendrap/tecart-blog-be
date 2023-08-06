@@ -1,6 +1,7 @@
 import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
 import Post from "../models/post.js";
+import Category from "../models/category.js";
 import ResponseError from "../utils/responseError.js";
 import calculatePagination from '../utils/calculatePagination.js';
 import userService from './userService.js';
@@ -250,8 +251,41 @@ const postService = {
     }
   },
 
-  getAllCategories: async () => {
-    
+  getAllCategories: async (sortRequest) => {
+    const sort = {};
+    if (sortRequest === "az") sort.name = 1;
+    else if (sortRequest === "za") sort.name = -1;
+
+    try {
+      const categories = await Category.find({}).sort(sort).skip(p.skip).limit(p.limit)
+      return categories
+    } catch (err) {
+      throw err
+    }
+  },
+
+  getPopularCategories: async () => {
+    try {
+      const popularCategories = await Post.aggregate([
+        {
+          $group: {
+            _id: "$categoryId",
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: {
+            count: -1,
+          },
+        },
+      ]);
+      const categoryIds = popularCategories.map((category) => category._id);  
+      const categories = await Category.find({ _id: { $in: categoryIds } });
+
+      return categories;
+    } catch (err) {
+      throw err
+    }
   },
 
   createPost: async (data) => {

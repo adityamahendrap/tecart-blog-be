@@ -1,20 +1,17 @@
 import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
 import Comment from "../models/comment.js";
+import userPostService from '../services/userPostService.js';
 
 export default {
   list: async (req, res, next) => {
-    const { limit, skip } = req.query;
     const { postId } = req.params;
-
     try {
       const comments = await Comment.find({ postId }).sort({ createdAt: 1 });
 
       logger.info("User accessed comments");
-      // setCache(req, data)
-      return res
-        .status(200)
-        .send({ message: "Comments retrieved", data: comments });
+      setCache(req, comments)
+      return res.status(200).send({ message: "Comments retrieved", data: comments });
     } catch (err) {
       next(err);
     }
@@ -22,13 +19,9 @@ export default {
 
   create: async (req, res, next) => {
     const userId = req.user._id;
-
     try {
-      const comment = new Comment({ ...req.body, userId });
-      await comment.save();
-
-      logger.info("User created a comment");
-      return res.status(201).send({ message: "Comment created" });
+      const comment = await userPostService.createComment(userId, req.body)
+      return res.status(201).send({ message: "Comment created", data: comment });
     } catch (err) {
       next(err);
     }
@@ -36,17 +29,9 @@ export default {
 
   update: async (req, res, next) => {
     const { id } = req.params;
-
     try {
-      const comment = await Comment.findByIdAndUpdate(id, req.body, {
-        runValidators: true,
-      });
-      if (!comment) {
-        return res.status(404).send({ message: "Comment not found" });
-      }
-
-      logger.info("User updated comment");
-      return res.status(201).send({ message: "Comment updated" });
+      const comment = await userPostService.updateComment(id, req.body)      
+      return res.status(201).send({ message: "Comment updated", data: comment });
     } catch (err) {
       next(err);
     }
@@ -54,15 +39,9 @@ export default {
 
   delete: async (req, res, next) => {
     const { id } = req.params;
-
     try {
-      const comment = await Comment.findByIdAndDelete(id);
-      if (!comment) {
-        return res.status(404).send({ message: "Comment not found" });
-      }
-
-      logger.info("User deleted comment");
-      return res.status(200).send({ message: "Comment deleted" });
+      const comment = await userPostService.deleteComment(id)
+      return res.status(200).send({ message: "Comment deleted", data: comment });
     } catch (err) {
       next(err);
     }

@@ -2,6 +2,7 @@ import logger from "../utils/logger.js";
 import User from "../models/user.js";
 import Post from "../models/post.js";
 import Follow from "../models/follow.js";
+import Subscription from "../models/subscription.js";
 import ResponseError from "../utils/responseError.js";
 import calculatePagination from '../utils/calculatePagination.js';
 
@@ -215,6 +216,44 @@ const userService = {
     }
   },
 
+  getSubscriptionByUser: async (subscriberId, targetId) => {
+    try {
+      const subscription = await Subscription.findOne({ subscriberId, targetId });
+      if (!subscription) {
+        throw new ResponseError(404, "Subscription not found");
+      }
+      
+    } catch (err) {
+      
+    }
+  },
+
+  subscribe: async (subscriberId, targetId) => {
+    if (subscriberId === targetId) {
+      throw new ResponseError(400,  "Self-subscription is not permitted");
+    }
+
+    try {
+      const subscribe = new Subscription({ doerId, targetId });
+      await subscribe.save();
+
+      return subscribe
+    } catch (err) {
+      throw err
+    }
+  },
+
+  unsubscribe: async (subscriptionId) => {
+    try {
+      const unsubscribed = await Subscription.findByIdAndDelete(subscriptionId)
+      if (!unsubscribed) {
+        throw new ResponseError(404, "Subscription not found");
+      }
+      return unsubscribed
+    } catch (err) {
+      throw err
+    }
+  }
 };
 
 export default userService;

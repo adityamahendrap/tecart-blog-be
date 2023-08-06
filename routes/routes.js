@@ -12,6 +12,7 @@ import { Router } from "express";
 const router = Router();
 
 // sufix SELF mean you dont need to define userId. JWT already handle it
+// don't forget to use prefix /api for the path
 const path = {
   LOGIN: "/auth/login",
   REGISTER: "/auth/register",
@@ -20,7 +21,7 @@ const path = {
   SEND_EMAIL_VERIFICATION: "/auth/send-email-verification",
   RESET_PASSWORD: "/auth/reset-password",
   CHANGE_PASSWORD: "/auth/change-password",
-  LOGOUT: "/auth/logout",
+  LOGOUT: "/auth/logout", // ??
 
   GET_USERS: "/users",
   GET_USER: "/users/:id",
@@ -41,6 +42,7 @@ const path = {
   GET_TOP_POSTS_FOR_FEEDS: "/feeds/top",
 
   GET_CATEGORIES: "/categories",
+  GET_POPULAR_CATEGORIES: "/categories/popular",
   GET_TAGS: "/tags",
 
   GET_LIKES_IN_POSTS: "/likes/:postId",
@@ -90,3 +92,4 @@ router.get(path.GET_LATEST_POSTS_FOR_FEEDS, verifyUser, feedController.latest);
 router.get(path.GET_TOP_POSTS_FOR_FEEDS, verifyUser, feedController.top);
 
 router.get(path.GET_CATEGORIES, categoryController.list)
+router.get(path.GET_POPULAR_CATEGORIES, categoryController.popular)

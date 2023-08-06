@@ -1,11 +1,6 @@
 import logger from "../utils/logger.js";
-import setCache from "../utils/setCache.js";
-import Post from "../models/post.js";
 import ResponseError from "../utils/responseError.js";
-import calculatePagination from '../utils/calculatePagination.js';
-import userService from './userService.js';
-import User from "../models/user.js";
-import Follow from "../models/follow.js";
+import Comment from "../models/comment.js";
 import Like from "../models/like.js";
 import Share from "../models/share.js";
 
@@ -41,7 +36,6 @@ const userPostService = {
       if (!isLiked) {
         return res.status(404).send({ message: "Like not found" });
       }
-
       return isLiked
     } catch (err) {
       throw err
@@ -76,7 +70,6 @@ const userPostService = {
           $unwind: '$post',
         },
       ]);
-      
       return posts
     } catch (err) {
       throw err
@@ -105,7 +98,53 @@ const userPostService = {
     } catch (err) {
       throw err
     }
+  },
+
+  createComment: async (userId, data) => {
+    try {
+      const comment = new Comment({ userId, ...data});
+      await comment.save();
+      return comment
+    } catch (err) {
+      throw err
+    }
+  },
+
+  updateComment: async (commentId, data) => {
+    try {
+      const comment = await Comment.findByIdAndUpdate(commentId, data, { runValidators: true });
+      if (!comment) {
+        throw new ResponseError(404, "Comment not found");
+      }
+      return comment
+    } catch (err) {
+      throw err
+    }
+  },
+
+  deleteComment: async (commentId) => {
+    const session = await mongoose.startSession();
+    try {
+      session.startTransaction();
+
+      const comment = await Comment.findByIdAndDelete(id);
+      if (!comment) {
+        return res.status(404).send({ message: "Comment not found" });
+      }
+      // also delete child commnnt with parent id deleted comment
+      await Comment.deleteMany({ parentId: commentId })
+
+      await session.commitTransaction();
+      session.endSession();
+
+      return comment
+    } catch (err) {
+      await session.abortTransaction();
+      session.endSession();
+      throw err
+    }
   }
+
 }
 
 export default userPostService;
