@@ -155,6 +155,66 @@ const userService = {
       throw err;
     }
   },
+
+  countFollows: async (userId) => {
+    try {
+      const followersCount = await Follow.countDocuments({ targetId: userId });
+      const followingsCount = await Follow.countDocuments({ doerId: userId });
+      return { followersCount, followingsCount }
+    } catch (err) {
+      throw err
+    }
+  },
+
+  getFollowers: async (userId) => {
+    try {
+      const followers = await Follow.find({ targetId: userId });
+      return followers
+    } catch (err) {
+      throw err
+    }
+  },
+
+  getFollowings: async (userId) => {
+    try {
+      const followings = await Follow.find({ doerId: userId });
+      return followings
+    } catch (err) {
+      throw err
+    }
+  },
+
+  follow: async (doerId, targetId) => {
+    try {
+      if (doerId === targetId) {
+        throw new ResponseError(400, "Self-following is not permitted")
+      }
+      const isFollowed = await Follow({ targetId, doerId });
+      if (isFollowed) {
+        throw new ResponseError(400, "User has been followed before" );
+      }
+
+      const follow = new Follow({ doerId, targetId });
+      await follow.save();
+
+      return follow
+    } catch (err) {
+      throw err
+    }
+  },
+
+  unfollow: async (followId) => {
+    try {
+      const unfollow = await Follow.findByIdAndDelete(followId);
+      if (!unfollow) {
+        throw new ResponseError(404, "Follow not found");
+      }
+      return unfollow
+    } catch (err) {
+      throw err
+    }
+  },
+
 };
 
 export default userService;

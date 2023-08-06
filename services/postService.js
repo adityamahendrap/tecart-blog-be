@@ -250,6 +250,10 @@ const postService = {
     }
   },
 
+  getAllCategories: async () => {
+    
+  },
+
   createPost: async (data) => {
     try {
       const post = new Post(data);

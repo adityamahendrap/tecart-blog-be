@@ -1,6 +1,7 @@
 import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
 import Like from "../models/like.js";
+import userPostService from '../services/userPostService.js';
 
 export default {
   list: async (req, res, next) => {
@@ -16,19 +17,23 @@ export default {
     }
   },
 
+  count: async (req, res, next) => {
+    const { postId } = req.params;
+    try {
+      const count = await userPostService.getTotalLikesInPost(postId);
+
+      setCache(req, data)
+      return res.status(200).send({ message: "Total likes retrieved", data: count });
+    } catch (err) {
+      next(err);
+    }
+  },
+
   create: async (req, res, next) => {
     const userId = req.user._id;
-
+    const { postId } = req.params;
     try {
-      const isLiked = await Like.findOne({ ...req.body, userId });
-      if (isLiked) {
-        return res.status(400).send({ message: "Post has been liked" });
-      }
-
-      const like = new Like({ ...req.body, userId });
-      await like.save();
-
-      logger.info("User created a like");
+      const like = await userPostService.like(userId, postId);
       return res.status(201).send({ message: "Like created", data: like });
     } catch (err) {
       next(err);
@@ -37,15 +42,9 @@ export default {
 
   delete: async (req, res, next) => {
     const { id } = req.params;
-
     try {
-      const like = await Like.findByIdAndDelete(id);
-      if (!like) {
-        return res.status(404).send({ message: "Like not found" });
-      }
-
-      logger.info("User deleted like");
-      return res.status(200).send({ message: "Like deleted" });
+      const deleted = await userPostService.unlikePost(id)
+      return res.status(200).send({ message: "Like deleted", data: deleted });
     } catch (err) {
       next(err);
     }
