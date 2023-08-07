@@ -43,21 +43,17 @@ export default {
     const { _id } = req.user;
     const { tags, categoryIds } = req.body;
     try {
-      const preference = await userService.setUserPreference(
-        _id,
-        tags,
-        categoryIds
-      );
-      return res.send({ message: "User set preferences", data: preference });
+      const preference = await userService.setUserPreference(_id, tags, categoryIds);
+      return res.status(201).send({ message: "User set preferences", data: preference });
     } catch (err) {
       next(err);
     }
   },
 
   update: async (req, res, next) => {
-    const { id } = req.params;
+    const userId = req.user._id;
     try {
-      const user = await userService.updateUserById(id, req.body);
+      const user = await userService.updateUserById(userId, req.body);
       return res.status(201).send({ message: "User updated", data: user });
     } catch (err) {
       next(err);
@@ -65,10 +61,10 @@ export default {
   },
 
   delete: async (req, res, next) => {
-    const { id } = req.params;
+    const userId = req.user._id;
     try {
-      const user = await userService.deleteUserById(id);
-      return res.status(200).send({ message: "User deleted", user });
+      const user = await userService.deleteUserById(userId);
+      return res.status(200).send({ message: "User deleted", data: user });
     } catch (err) {
       next(err);
     }

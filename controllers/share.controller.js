@@ -9,9 +9,7 @@ export default {
     try {
       const shares = await userPostService.getSharedPostsByUser(userId);
       setCache(req, shares);
-      return res
-        .status(200)
-        .send({ message: "Shares retrieved", data: shares });
+      return res.status(200).send({ message: "Shares retrieved", data: shares });
     } catch (err) {
       next(err);
     }

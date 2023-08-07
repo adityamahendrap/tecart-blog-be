@@ -6,15 +6,14 @@ export default {
     const { userId } = req.params;
     try {
       const count = await userService.countFollows(userId);
-      return res
-        .status(200)
-        .send({ message: "Follows count retrieved", data: count });
+      setCache(req, count);
+      return res.status(200).send({ message: "Follows count retrieved", data: count });
     } catch (err) {
       next(err);
     }
   },
 
-  listFollower: async (req, res, next) => {
+  listFollowers: async (req, res, next) => {
     const { userId } = req.params;
     try {
       const data = await userService.getFollowers(userId);
@@ -51,9 +50,7 @@ export default {
     const { id } = req.params;
     try {
       const unfollow = await userService.unfollow(id);
-      return res
-        .status(200)
-        .send({ message: "Follow deleted", data: unfollow });
+      return res.status(200).send({ message: "Follow deleted", data: unfollow });
     } catch (err) {
       next(err);
     }

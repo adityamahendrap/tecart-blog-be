@@ -12,12 +12,7 @@ export default {
         password,
         confirmPassword
       );
-      res
-        .status(201)
-        .send({
-          message:
-            "Register success, please check your email to verify your account",
-        });
+      res.status(201).send({message:"Register success, please check your email to verify your account",});
 
       // send email confirmation
       const verificationEndpoint = `${process.env.API_ENDPOINT}/api/auth/verify-email/${createdUser._id}`;
@@ -51,9 +46,7 @@ export default {
         verificationEndpoint
       );
 
-      return res
-        .status(200)
-        .send({ message: "Varification sent, please check your email" });
+      return res.status(200).send({ message: "Varification sent, please check your email" });
     } catch (err) {
       next(err);
     }
@@ -64,7 +57,6 @@ export default {
     if (!token) {
       return res.status(400).send({ message: "Token not found" });
     }
-
     try {
       const email = await authService.verifyToken(token);
       return res.status(200).send(email);
@@ -87,9 +79,7 @@ export default {
     const { email } = req.body;
     try {
       await authService.resetPassword(email);
-      return res
-        .status(201)
-        .send({ message: "Password reseted, please check your email" });
+      return res.status(201).send({ message: "Password reseted, please check your email" });
     } catch (err) {
       next(err);
     }

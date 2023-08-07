@@ -14,9 +14,7 @@ export default {
     try {
       const relevant = await postService.getRelevantPosts(userId, page);
       setCache(req, relevant);
-      return res
-        .status(200)
-        .send({ message: "Relevant posts retrieved", data: relevant });
+      return res.status(200).send({ message: "Relevant posts retrieved", data: relevant });
     } catch (err) {
       next(err);
     }
@@ -31,9 +29,7 @@ export default {
     try {
       const posts = await postService.getLatestPosts(page);
       setCache(req, posts);
-      return res
-        .status(200)
-        .send({ message: "Latest posts retrieved", data: posts });
+      return res.status(200).send({ message: "Latest posts retrieved", data: posts });
     } catch (err) {
       next(err);
     }
@@ -51,9 +47,7 @@ export default {
     try {
       const posts = await postService.getTopPosts(page);
       setCache(req, posts);
-      return res
-        .status(200)
-        .send({ message: "Top posts retrieved", data: posts });
+      return res.status(200).send({ message: "Top posts retrieved", data: posts });
     } catch (err) {
       next(err);
     }
@@ -63,9 +57,7 @@ export default {
     const { total } = req.params;
     try {
       const posts = await postService.getRandomPosts(total);
-      return res
-        .status(200)
-        .send({ message: "Random posts retrieved", data: posts });
+      return res.status(200).send({ message: "Random posts retrieved", data: posts });
     } catch (err) {
       next(err);
     }

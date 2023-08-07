@@ -8,9 +8,7 @@ export default {
     try {
       const categories = await postService.getAllCategories(sort);
       setCache(req, categories);
-      return res
-        .status(200)
-        .send({ message: "Categories retrieved", data: categories });
+      return res.status(200).send({ message: "Categories retrieved", data: categories });
     } catch (err) {
       next(err);
     }
@@ -20,9 +18,7 @@ export default {
     try {
       const categories = await postService.getPopularCategories();
       setCache(req, categories);
-      return res
-        .status(200)
-        .send({ message: "Popular categories retrieved", data: categories });
+      return res.status(200).send({ message: "Popular categories retrieved", data: categories });
     } catch (err) {
       next(err);
     }

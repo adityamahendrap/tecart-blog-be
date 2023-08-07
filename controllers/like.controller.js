@@ -3,15 +3,13 @@ import Like from "../models/like.model.js";
 import userPostService from "../services/userPost.service.js";
 
 export default {
-  list: async (req, res, next) => {
-    const { postId } = req.params;
+  listLikedPosts: async (req, res, next) => {
+    const userId = req.user._id
     try {
-      const likes = await Like.find({ postId });
-      const total = likes.length;
-      setCache(req, data);
-      return res
-        .status(200)
-        .send({ message: "Likes retrieved", total, data: likes });
+      const likes = await userPostService.getlikedPosts(userId)
+      const total = likes.length
+      setCache(req, likes);
+      return res.status(200).send({ message: "Liked posts retrieved", total, data: likes });
     } catch (err) {
       next(err);
     }
@@ -21,10 +19,8 @@ export default {
     const { postId } = req.params;
     try {
       const count = await userPostService.getTotalLikesInPost(postId);
-      setCache(req, data);
-      return res
-        .status(200)
-        .send({ message: "Total likes retrieved", data: count });
+      setCache(req, count);
+      return res.status(200).send({ message: "Total likes retrieved", data: count });
     } catch (err) {
       next(err);
     }

@@ -3,8 +3,21 @@ import ResponseError from "../errors/ResponseError.js";
 import Comment from "../models/comment.model.js";
 import Like from "../models/like.model.js";
 import Share from "../models/share.model.js";
+import Post from "../models/post.model.js";
 
 const userPostService = {
+  getlikedPosts: async (userId) => {
+    try {
+      const liked = await Like.find({ userId })
+      const postIds = liked.map(l => l.postId)
+
+      const likedPosts = await Post.find({ _id: { $in: postIds } })
+      return likedPosts
+    } catch (err) {
+      throw err
+    }
+  },
+
   getTotalLikesInPost: async (postId) => {
     try {
       const count = await Like.countDocuments({ postId });
@@ -102,9 +115,18 @@ const userPostService = {
     }
   },
 
-  createComment: async (userId, data) => {
+  getCommentsInPost: async (postId) => {
     try {
-      const comment = new Comment({ userId, ...data });
+      const comments = await Comment.find({ postId }).sort({ createdAt: 1 });
+      return comments
+    } catch (err) {
+      throw err
+    }
+  },
+
+  createComment: async (userId, postId, data) => {
+    try {
+      const comment = new Comment({ userId, postId,...data });
       await comment.save();
       return comment;
     } catch (err) {

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import ResponseError from '../utils/responseError.js';
+import ResponseError from '../errors/ResponseError.js';
 
 export default (err, req, res, next) => {
   if (err instanceof ResponseError) {

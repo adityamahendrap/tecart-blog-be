@@ -338,6 +338,15 @@ const postService = {
       throw err;
     }
   },
+
+  incrementViews: async (postId) => {
+    try {
+      const post = await Post.findByIdAndUpdate(postId, { $inc: { views: 1 } }, { new: true });
+      return post
+    } catch (err) {
+      throw err
+    }
+  }
 };
 
 export default postService;

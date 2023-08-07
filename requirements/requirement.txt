@@ -1,0 +1,14 @@
+must:
+  - basic auth
+  - crud on post
+  - tags & category on post
+  - search
+
+extra:
+  - oauth
+  - user can like posts
+  - user can comment on post
+  - user can share posts
+  - user can follow another user
+  - user can subscribe authors (user)
+  - notification

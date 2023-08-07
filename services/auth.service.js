@@ -1,6 +1,6 @@
 import * as jose from "jose";
 import * as argon2 from "argon2";
-import sendEmail from "../utils/sendEmail.js";
+import emailService from '../services/email.service.js';
 import randomstring from "randomstring";
 import logger from "../utils/logger.js";
 import User from "../models/user.model.js";
@@ -10,7 +10,7 @@ import qs from "qs";
 
 const authService = {
   register: async (username, email, password, confirmPassword) => {
-    try {
+  try {
       const isEmailExist = await User.findOne({ email });
       if (isEmailExist) {
         throw new ResponseError(409, "Email is already registered");
@@ -95,7 +95,7 @@ const authService = {
 
       const resetPassword = randomstring.generate();
       const text = `Password has been reseted.\nYour new password: ${resetPassword}\nPlease remember to change this password. `;
-      const emailSended = await sendEmail(email, "Reset Password", text);
+      const emailSended = await emailService.sendEmail(email, "Reset Password", text);
       if (!emailSended) {
         logger.info("authService.resetPassword -> Send email failed");
         throw new ResponseError(

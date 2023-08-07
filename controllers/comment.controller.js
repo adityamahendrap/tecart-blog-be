@@ -7,13 +7,9 @@ export default {
   list: async (req, res, next) => {
     const { postId } = req.params;
     try {
-      const comments = await Comment.find({ postId }).sort({ createdAt: 1 });
-
-      logger.info("User accessed comments");
+      const comments = await userPostService.getCommentsInPost(postId);
       setCache(req, comments);
-      return res
-        .status(200)
-        .send({ message: "Comments retrieved", data: comments });
+      return res.status(200).send({ message: "Comments retrieved", data: comments });
     } catch (err) {
       next(err);
     }
@@ -21,11 +17,10 @@ export default {
 
   create: async (req, res, next) => {
     const userId = req.user._id;
+    const { postId } = req.params;
     try {
-      const comment = await userPostService.createComment(userId, req.body);
-      return res
-        .status(201)
-        .send({ message: "Comment created", data: comment });
+      const comment = await userPostService.createComment(userId, postId, req.body);
+      return res.status(201).send({ message: "Comment created", data: comment });
     } catch (err) {
       next(err);
     }
@@ -35,9 +30,7 @@ export default {
     const { id } = req.params;
     try {
       const comment = await userPostService.updateComment(id, req.body);
-      return res
-        .status(201)
-        .send({ message: "Comment updated", data: comment });
+      return res.status(201).send({ message: "Comment updated", data: comment });
     } catch (err) {
       next(err);
     }
@@ -47,9 +40,7 @@ export default {
     const { id } = req.params;
     try {
       const comment = await userPostService.deleteComment(id);
-      return res
-        .status(200)
-        .send({ message: "Comment deleted", data: comment });
+      return res.status(200).send({ message: "Comment deleted", data: comment });
     } catch (err) {
       next(err);
     }

@@ -8,10 +8,7 @@ export default {
   list: async (req, res, next) => {
     const { page } = req.query;
     try {
-      const posts = await postService.getPostsWithSortAndFilter(
-        page,
-        req.query
-      );
+      const posts = await postService.getPostsWithSortAndFilter(page, req.query);
       setCache(req, posts);
       return res.status(200).send({ message: "Posts retrieved", data: posts });
     } catch (err) {
@@ -93,4 +90,14 @@ export default {
       next(err);
     }
   },
+
+  increment: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const post = await postService.incrementViews(id)
+      return res.status(200).send({ message: "Post views incremented", data: post });
+    } catch (err) {
+      next(err);
+    }
+  }
 };

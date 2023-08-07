@@ -6,14 +6,9 @@ export default {
     const userId = req.user._id;
     const { targetId } = req.params;
     try {
-      const subscription = await userService.getSubscriptionByUser(
-        userId,
-        targetId
-      );
+      const subscription = await userService.getSubscriptionByUser(userId, targetId);
       setCache(req, subscription);
-      return res
-        .status(200)
-        .send({ message: "Subscription retrieved", data: subscription });
+      return res.status(200).send({ message: "Subscription retrieved", data: subscription });
     } catch (err) {
       next(err);
     }
@@ -24,9 +19,7 @@ export default {
     const { targetId } = req.params;
     try {
       const subscription = await userService.subscribe(subscriberId, targetId);
-      return res
-        .status(201)
-        .send({ message: "Subscription created", data: subscription });
+      return res.status(201).send({ message: "Subscription created", data: subscription });
     } catch (err) {
       next(err);
     }
@@ -36,9 +29,7 @@ export default {
     const { id } = req.params;
     try {
       const deleted = await userService.unsubscribe(id);
-      return res
-        .status(200)
-        .send({ message: "Subscription deleted", data: deleted });
+      return res.status(200).send({ message: "Subscription deleted", data: deleted });
     } catch (err) {
       next(err);
     }
