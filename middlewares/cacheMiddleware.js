@@ -3,6 +3,7 @@ const client = createClient();
 
 export default async (req, res, next) => {
   const key = req.user.id + " " + req.method + " " + req.originalUrl;
+  if(req.method !== 'GET') return next()
   try {
     client.on('error', err => console.log('Redis Client Error', err));
     await client.connect();
