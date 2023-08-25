@@ -2,6 +2,16 @@ import setCache from "../utils/setCache.js";
 import userService from "../services/user.service.js";
 
 export default {
+  me: async (req, res, next) => {
+    try {
+      const user = await userService.getUserById(req.user._id)
+      setCache(req, user);
+      return res.status(200).send({ message: "User retrieved", data: user });
+    } catch (err) {
+      throw err
+    }
+  },
+
   list: async (req, res, next) => {
     const { sort, page } = req.query;
     const availableSort = [

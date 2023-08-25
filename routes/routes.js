@@ -9,7 +9,8 @@ import subscriptionController from "../controllers/subscription.controller.js";
 import userController from "../controllers/user.controller.js";
 import feedController from "../controllers/feed.controller.js";
 import cacheMiddleware from '../middlewares/cacheMiddleware.js';
-import verifyUser from '../middlewares/verifyUser.js';
+import verifyUser from '../middlewares/verifyUserMiddleware.js';
+import authRestriction from '../middlewares/authRestrictionMiddleware.js';
 import express, { Router } from "express";
 const app = express();
 const router = Router();
@@ -26,12 +27,16 @@ const path = {
   RESET_PASSWORD: "/auth/reset-password",
   CHANGE_PASSWORD: "/auth/change-password", 
   LOGOUT: "/auth/logout", // ??
+  GITHUB_OAUTH: "/sessions/oauth/github",
+  TEST_GITHUB_OAUTH: "/auth/github/test",
+  GOOGLE_OAUTH: "/auth/google",
 
+  ME: "/me",
   GET_USERS: "/users",
   GET_USER: "/users/:id",
-  UPDATE_USER_SELF: "/users",
-  DELETE_ACCOUNT_SELF: "/users",
-  SET_NEW_USER_PREFERENCE_SELF: "/users/new/preference",
+  UPDATE_USER_SELF: "/users/me",
+  DELETE_ACCOUNT_SELF: "/users/me",
+  SET_NEW_USER_PREFERENCE_SELF: "/users/me/preference/new",
 
   GET_POSTS: "/posts",
   GET_POST: "/posts/:id",
@@ -85,13 +90,15 @@ router.post(path.LOGIN, authController.login);
 router.post(path.REGISTER, authController.register);
 router.post(path.VERIFY_TOKEN, authController.verifyToken);
 router.get(path.VERIFY_EMAIL, authController.verifyEmail);
-router.get(path.SEND_EMAIL_VERIFICATION, verifyUser, authController.sendEmailVerification);
-router.put(path.CHANGE_PASSWORD, verifyUser, authController.changePassword);
+router.get(path.SEND_EMAIL_VERIFICATION, verifyUser, authRestriction, authController.sendEmailVerification);
+router.put(path.CHANGE_PASSWORD, verifyUser, authRestriction, authController.changePassword);
 router.put(path.RESET_PASSWORD, authController.resetPassword);
+router.get(path.GITHUB_OAUTH, authController.githubOauth);
 
 app.use(cacheMiddleware)
 
 router.get(path.GET_USERS, userController.list);
+router.get(path.ME, verifyUser, userController.me);
 router.get(path.GET_USER, userController.get);
 router.put(path.SET_NEW_USER_PREFERENCE_SELF, verifyUser, userController.setPreference);
 router.put(path.UPDATE_USER_SELF, verifyUser, userController.update);

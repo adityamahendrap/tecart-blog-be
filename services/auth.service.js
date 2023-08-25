@@ -9,11 +9,22 @@ import axios from "axios";
 import qs from "qs";
 
 const authService = {
+  hashPassword: async (password) => {
+    return await argon2.hash(password);
+  },
+
+  compareHash: async (hash, original) => {
+    return await argon2.verify(hash, original);
+  },
+
   register: async (username, email, password, confirmPassword) => {
   try {
       const isEmailExist = await User.findOne({ email });
       if (isEmailExist) {
         throw new ResponseError(409, "Email is already registered");
+      }
+      if(!password) { // validate bcs passwd nullable for OAuth
+        throw new ResponseError(400, "Password are required");
       }
       if (password !== confirmPassword) {
         throw new ResponseError(400, "Password confirmation is not matched");
@@ -39,6 +50,9 @@ const authService = {
       const user = await User.findOne({ email });
       if (!user) {
         throw new ResponseError(404, "User doesn't exist");
+      }
+      if(user.authType !== 'JWT') {
+        throw new ResponseError(400, "You are registered with OAuth. if you want to login, not by this method");
       }
 
       const validPassword = await authService.compareHash(
@@ -139,7 +153,7 @@ const authService = {
       const result = await User.updateOne(
         { userId },
         { password: hashedNewPassword }
-      );
+    );
 
       logger.info("authService.changePassword -> User changed password");
       return result;
@@ -148,55 +162,43 @@ const authService = {
     }
   },
 
-  // Retrieve the OAuth Access Token
-  githubOathToken: async (code) => {
+  getGithubOathToken: async ({ code }) => {
     const rootUrl = "https://github.com/login/oauth/access_token";
     const options = {
-      client_id: process.env.GITHUB_OAUTH_CLIENT_ID,
-      client_secret: process.env.GITHUB_OAUTH_CLIENT_SECRET,
+      client_id: process.env.GITHUB_CLIENT_ID,
+      client_secret: process.env.GITHUB_CLIENT_SECRET,
       code,
     };
     const queryString = qs.stringify(options);
-
+  
     try {
       const { data } = await axios.post(`${rootUrl}?${queryString}`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
       const decoded = qs.parse(data);
-
-      logger.error(
-        "sessionService.getGithubOathToken -> Success get github oauth token"
-      );
+  
       return decoded;
     } catch (err) {
-      throw err;
+      throw err
     }
   },
-
-  // Retrieve the GitHub Account Information
-  githubUser: async (access_token) => {
+  
+  getGithubUser: async ({ access_token }) => {
     try {
-      const { data } = await axios.get("https://api.github.com/user", {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
-
+      const { data } = await axios.get(
+        "https://api.github.com/user",
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+  
       return data;
     } catch (err) {
-      throw err;
+      throw Error(err);
     }
-  },
-
-  hashPassword: async (password) => {
-    return await argon2.hash(password);
-  },
-
-  compareHash: async (hash, original) => {
-    return await argon2.verify(hash, original);
-  },
+  }
 };
 
 export default authService;

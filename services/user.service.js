@@ -8,6 +8,21 @@ import calculatePagination from "../utils/calculatePagination.js";
 import generateMetaPagination from "../utils/generateMetaPagination.js";
 
 const userService = {
+  updateOrInsertUser: async (data) => {
+    try {
+      const user = await User.findOneAndUpdate(
+        { email: data.email }, 
+        data, 
+        { upsert: true, runValidators: true}
+      )
+
+      logger.info("userService.updateOrInsertUser -> User created");
+      return user;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   getUsers: async (page) => {
     const p = calculatePagination(page);
     try {

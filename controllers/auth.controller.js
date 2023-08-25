@@ -1,6 +1,9 @@
 import User from "../models/user.model.js";
 import authService from "../services/auth.service.js";
 import emailService from "../services/email.service.js";
+import userService from "../services/user.service.js";
+import * as jose from "jose";
+import qs from "qs";
 
 export default {
   register: async (req, res, next) => {
@@ -95,4 +98,88 @@ export default {
       next(err);
     }
   },
-};
+
+  // !! Frontend redirect example, 
+  // 🧢 you should attach this function to your oauth github login button
+  // export function getGitHubUrl(from) {
+  //   const rootURl = "https://github.com/login/oauth/authorize";
+  
+  //   const options = {
+  //     client_id: import.meta.env.VITE_GITHUB_OAUTH_CLIENT_ID,
+  //     redirect_uri: import.meta.env.VITE_GITHUB_OAUTH_REDIRECT_URL,
+  //     scope: "user:email",
+  //     state: from,
+  //   };
+  
+  //   const qs = new URLSearchParams(options);
+  
+  //   return `${rootURl}?${qs.toString()}`;
+  // }
+
+  githubOauth: async (req, res, next) => {
+    const { code, state, error } = req.query
+    try {
+      const pathUrl = state ?? "/"
+  
+      if (error) {
+        return res.redirect(`${FRONTEND_ORIGIN}/login`);
+      }
+  
+      if (!code) {
+        return res.status(401).json({
+          status: "error",
+          message: "Authorization code not provided!",
+        });
+      }
+      console.log('test');
+  
+      const { access_token } = await authService.getGithubOathToken({ code });
+      const { email, avatar_url, login } = await authService.getGithubUser({ access_token });
+      
+      if(!email) {
+        return res.status(403).json({
+          status: "fail",
+          message: "You GitHub account does not have any public email address, please add one and try again",
+        });
+      }
+      
+      const userData = {
+        email,
+        username: login,
+        profile: { picture: avatar_url },
+        password: " ",
+        isVerified: true,
+        authType: "GitHub",
+      }
+      const user = await userService.updateOrInsertUser(userData)
+  
+      if (!user) {
+        return res.redirect(`${process.env.FRONTEND_ORIGIN}/oauth/error`);
+      }
+
+      const token = await new jose.SignJWT({ userId: user._id })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime(process.env.JWT_EXPIRES_IN ?? "1h")
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+  
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 60 * 60 * 1000),
+      });
+      console.log('test2');
+  
+      res.redirect(`${process.env.FRONTEND_ORIGIN}${pathUrl}`);
+    } catch (err) {
+      console.error("Failed to authorize GitHub User:", err);
+      return res.redirect(`${process.env.FRONTEND_ORIGIN}/oauth/error`);
+    }
+  },
+
+  logout: async (req, res, nesxt) => {
+    try {
+      res.cookie("token", "", { maxAge: -1 });
+      res.status(200).json({ status: "success" });
+    } catch (err) {
+      next(err)
+    }
+  }
+}
