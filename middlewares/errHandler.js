@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import ResponseError from '../errors/ResponseError.js';
 
 export default (err, req, res, next) => {
+  console.error(err);
+  
   if (err instanceof ResponseError) {
     return res.status(err.status).json({ error: 'Client Error', message: err.message });
   }

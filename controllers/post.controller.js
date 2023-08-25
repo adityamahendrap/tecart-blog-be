@@ -47,6 +47,7 @@ export default {
   tags: async (req, res, next) => {
     try {
       const tags = await postService.getTagsInPosts();
+      setCache(req, tags);
       return res.status(200).send({ message: "Tags retrieved", data: tags });
     } catch (err) {
       next(err);

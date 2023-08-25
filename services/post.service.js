@@ -4,6 +4,7 @@ import Post from "../models/post.model.js";
 import Category from "../models/category.model.js";
 import ResponseError from "../errors/ResponseError.js";
 import calculatePagination from "../utils/calculatePagination.js";
+import generateMetaPagination from "../utils/generateMetaPagination.js";
 import userService from "./user.service.js";
 
 const postService = {
@@ -11,11 +12,11 @@ const postService = {
     const p = calculatePagination(page);
     try {
       const posts = await Post.find().limit(p.limit).skip(p.skip);
-
+      const meta = generateMetaPagination(p.limit, p.skip, posts.length);
+      
       logger.info("postService.getPosts -> Posts retrieved");
-      return posts;
+      return { meta, posts }
     } catch (err) {
-      logger.info("ERROR postService.getPosts ->", err);
       throw err;
     }
   },
@@ -41,11 +42,12 @@ const postService = {
         .sort(sort)
         .skip(p.skip)
         .limit(p.limit);
+      
+      const meta = generateMetaPagination(p.limit, p.skip, posts.length);
 
       logger.info("postService.getPostsWithSortAndFilter -> Posts retrieved");
-      return posts;
+      return { meta, posts }
     } catch (err) {
-      logger.info("ERROR postService.getPostsWithSortAndFilter ->", err);
       next(err);
     }
   },
@@ -60,7 +62,6 @@ const postService = {
       logger.info("postService.getPostById -> Post retrieved");
       return post;
     } catch (err) {
-      logger.error("ERROR postService.getPostById ->", err);
       throw err;
     }
   },
@@ -95,7 +96,6 @@ const postService = {
         ...relatedPostsByTags,
       ];
     } catch (err) {
-      logger.error("ERROR postService.getRelatedPosts ->", err);
       throw err;
     }
   },
@@ -139,18 +139,18 @@ const postService = {
         ],
       });
 
-      const data = [
+      const posts = [
         ...relevantPostsByFollowings,
         ...relevantPostsByLikedPostsInSameCategory,
         ...relevantPostsByLikedPostsTags,
         ...relevantPostsByUserPreference,
       ];
 
+      const meta = generateMetaPagination(p.limit, p.skip, posts.length);
+
       logger.info("postService.getRelevantPosts -> Relevant posts retrieved");
-      setCache(req, data);
-      return data;
+      return { meta, posts }
     } catch (err) {
-      logger.error("ERROR postService.getRelevantPosts ->", err);
       throw err;
     }
   },
@@ -164,11 +164,10 @@ const postService = {
         .skip(p.skip)
         .limit(p.limit);
 
+      const meta = generateMetaPagination(p.limit, p.skip, posts.length);
       logger.info("postService.getLatestPosts -> Latest posts retrieved");
-      setCache(req, data);
-      return posts;
+      return { meta, posts }
     } catch (err) {
-      logger.info("ERROR postService.getLatestPosts ->", err);
       throw err;
     }
   },
@@ -223,10 +222,11 @@ const postService = {
         .skip(p.limit)
         .skip(p.skip);
 
+      const meta = generateMetaPagination(p.limit, p.skip, posts.length);
+
       logger.info("postService.getTopPosts -> Top posts retrieved");
-      return posts;
+      return { meta, posts }
     } catch (err) {
-      logger.error("ERROR postService.getTopPosts ->", err);
       throw err;
     }
   },
@@ -242,7 +242,6 @@ const postService = {
       logger.info("postService.getRandomPosts -> Random posts retrieved");
       return posts;
     } catch (err) {
-      logger.error("ERROR postService.getRandomPosts ->", err);
       throw err;
     }
   },
@@ -252,7 +251,6 @@ const postService = {
       const tags = await Post.distinct("tags");
       return tags;
     } catch (err) {
-      logger.error("ERROR postService.getTagsInPosts ->", err);
       throw err;
     }
   },
@@ -319,7 +317,6 @@ const postService = {
       logger.info("postService.updatePostById -> Post updated");
       return post;
     } catch (err) {
-      logger.error("ERROR postService.updatePostById ->", err);
       throw err;
     }
   },
@@ -334,7 +331,6 @@ const postService = {
       logger.info("postService.deletePostById -> Post deleted");
       return post;
     } catch (err) {
-      logger.error("ERROR postService.deletePostById ->", err);
       throw err;
     }
   },

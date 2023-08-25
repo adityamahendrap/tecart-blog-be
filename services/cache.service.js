@@ -5,7 +5,6 @@ const client = createClient();
 const cacheService = {
   set: async (req, data) => {
     const key = req.user.id + " " + req.method + " " + req.originalUrl;
-  
     try {
       const expirationTime = 10;
       const fdata = JSON.stringify(data)
@@ -36,7 +35,6 @@ const cacheService = {
       return null
     } catch (err) {
       await client.disconnect();
-      logger.error("cacheService.get ->", err);
       throw err
     }
   }

@@ -1,5 +1,4 @@
 import setCache from "../utils/setCache.js";
-import Like from "../models/like.model.js";
 import userPostService from "../services/userPost.service.js";
 
 export default {

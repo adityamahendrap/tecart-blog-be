@@ -5,16 +5,17 @@ import Follow from "../models/follow.model.js";
 import Subscription from "../models/subscription.model.js";
 import ResponseError from "../errors/ResponseError.js";
 import calculatePagination from "../utils/calculatePagination.js";
+import generateMetaPagination from "../utils/generateMetaPagination.js";
 
 const userService = {
   getUsers: async (page) => {
     const p = calculatePagination(page);
     try {
       const users = await User.find().skip(p.skip).limit(p.limit);
+      const meta = generateMetaPagination(p.limit, p.skip, users.length);
       logger.info("userService.getUsers -> Users retrieved");
-      return users;
+      return { meta, users };
     } catch (err) {
-      logger.error("ERROR userService.getUsers ->", err);
       throw err;
     }
   },
@@ -47,10 +48,11 @@ const userService = {
         users = await Follow.aggregate(query).skip(p.skip).limit(p.limit);
       }
 
+      const meta = generateMetaPagination(p.limit, p.skip, users.length);
+
       logger.info("userService.getUsersWithSort -> Sorted users retrieved");
-      return users;
+      return { meta, users };
     } catch (err) {
-      logger.error("ERROR userService.getUsersWithSort ->", err);
       throw err;
     }
   },
@@ -65,7 +67,6 @@ const userService = {
       logger.info("userService.getUserById -> User retrieved");
       return user;
     } catch (err) {
-      logger.error("ERROR userService.getUserById ->", err);
       throw err;
     }
   },
@@ -77,7 +78,6 @@ const userService = {
       logger.info("userService.getUserPreference -> User preference retrieved");
       return preference;
     } catch (err) {
-      logger.error("ERROR userService.getUserPreference ->", err);
       throw err;
     }
   },
@@ -93,7 +93,6 @@ const userService = {
       logger.info("userService.setUserPreference -> User preference updated");
       return result;
     } catch (err) {
-      logger.error("ERROR userService.setUserPreference ->", err);
       throw err;
     }
   },
@@ -130,7 +129,6 @@ const userService = {
       );
       return result;
     } catch (err) {
-      logger.error("ERROR userService.updateUserPreference ->", err);
       throw err;
     }
   },
@@ -147,7 +145,6 @@ const userService = {
       logger.info("userService.updateUserById -> User updated");
       return user;
     } catch (err) {
-      logger.error("ERROR userService.updateUserById ->", err);
       throw err;
     }
   },
@@ -162,7 +159,6 @@ const userService = {
       logger.info("userService.deleteUserById -> User destroyed");
       return user;
     } catch (err) {
-      logger.error("ERROR userService.deleteUserById ->", err);
       throw err;
     }
   },

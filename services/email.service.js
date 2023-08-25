@@ -19,6 +19,7 @@ const emailService = {
     });
 
     try {
+      logger.info(`emailService.sendEmail -> Try to send email to: ${email}...`)
       const sendEmail = await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email,
@@ -33,7 +34,6 @@ const emailService = {
       logger.info('emailService.sendEmail -> Email sended')
       return null
     } catch (err) {
-      logger.error("ERROR emailService.sendEmail ->", err);
       throw err;
     }
   },

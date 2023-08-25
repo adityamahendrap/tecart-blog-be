@@ -33,12 +33,14 @@ export default async (targetId) => {
     const batchEmailSend = subscribersEmail.map(async email => {
       const subject = `${user.profile.name} posted a new article!`
       const text = 'blablabla'
-      await sendEmail(email, subject, text);
+      setTimeout(async () => {
+        await sendEmail(email, subject, text);
+      }, 1000);
     });
     
     await Promise.all(batchEmailSend)
   } catch (err) {
-    console.log(err);
-    return res.status(500).send({ message: 'Internal server error' })
+    throw err;
+    // return res.status(500).send({ message: 'Internal server error' })
   }
 };

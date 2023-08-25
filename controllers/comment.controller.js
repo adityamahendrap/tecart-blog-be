@@ -1,6 +1,4 @@
-import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
-import Comment from "../models/comment.model.js";
 import userPostService from "../services/userPost.service.js";
 
 export default {

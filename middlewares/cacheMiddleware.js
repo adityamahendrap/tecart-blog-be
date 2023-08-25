@@ -3,7 +3,6 @@ const client = createClient();
 
 export default async (req, res, next) => {
   const key = req.user.id + " " + req.method + " " + req.originalUrl;
-
   try {
     client.on('error', err => console.log('Redis Client Error', err));
     await client.connect();
@@ -15,7 +14,6 @@ export default async (req, res, next) => {
     next()
   } catch (err) {
     await client.disconnect();
-    logger.error(err);
     next(err)
   } finally {
     await client.disconnect();

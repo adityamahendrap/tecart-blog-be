@@ -10,7 +10,6 @@ const userPostService = {
     try {
       const liked = await Like.find({ userId })
       const postIds = liked.map(l => l.postId)
-
       const likedPosts = await Post.find({ _id: { $in: postIds } })
       return likedPosts
     } catch (err) {

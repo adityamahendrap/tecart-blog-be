@@ -30,7 +30,6 @@ const authService = {
       logger.info("authService.register -> User created");
       return newUser;
     } catch (err) {
-      logger.error("ERROR authService.register ->", err);
       throw err;
     }
   },
@@ -57,7 +56,6 @@ const authService = {
       logger.info("authService.login -> User logged In");
       return token;
     } catch (err) {
-      logger.error("authService.login ->", err);
       throw err;
     }
   },
@@ -81,7 +79,6 @@ const authService = {
       logger.info("authService.verifyToken -> Token verified");
       return user;
     } catch (err) {
-      logger.error("authService.verifyToken ->", err);
       throw err;
     }
   },
@@ -113,7 +110,6 @@ const authService = {
       logger.info("authService.verifyToken -> Token verified");
       return result;
     } catch (err) {
-      logger.error("authService.resetPassword ->", err);
       throw err;
     }
   },
@@ -148,7 +144,6 @@ const authService = {
       logger.info("authService.changePassword -> User changed password");
       return result;
     } catch (err) {
-      logger.error("authService.changePassword ->", err);
       throw err;
     }
   },
@@ -176,7 +171,6 @@ const authService = {
       );
       return decoded;
     } catch (err) {
-      logger.error("ERROR sessionService.getGithubOathToken ->", err);
       throw err;
     }
   },
@@ -192,7 +186,6 @@ const authService = {
 
       return data;
     } catch (err) {
-      logger.error("ERROR sessionService.getGithubUser ->", err);
       throw err;
     }
   },
