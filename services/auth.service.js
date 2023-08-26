@@ -7,6 +7,7 @@ import User from "../models/user.model.js";
 import ResponseError from "../errors/ResponseError.js";
 import axios from "axios";
 import qs from "qs";
+import path from '../routes/path.js';
 
 const authService = {
   hashPassword: async (password) => {
@@ -103,6 +104,9 @@ const authService = {
       if (!user) {
         throw new ResponseError(404, "Email not registered");
       }
+      if(user.authType !== 'JWT') {
+        throw new ResponseError(400, "Can't reset password for OAuth user");
+      }
 
       const resetPassword = randomstring.generate();
       const text = `Password has been reseted.\nYour new password: ${resetPassword}\nPlease remember to change this password. `;
@@ -133,6 +137,9 @@ const authService = {
       const user = await User.findById(userId);
       if (!user) {
         throw new ResponseError(404, "User not found");
+      }
+      if(user.authType !== 'JWT') {
+        throw new ResponseError(400, "Can't change password for OAuth user");
       }
 
       const validCurrentPassword = await authService.compareHash(
@@ -185,18 +192,54 @@ const authService = {
   
   getGithubUser: async ({ access_token }) => {
     try {
-      const { data } = await axios.get(
-        "https://api.github.com/user",
+      const { data } = await axios.get("https://api.github.com/user", {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+  
+      return data;
+    } catch (err) {
+      throw err
+    }
+  },
+
+  getGoogleOauthToken: async ({ code }) => {
+    const rootURl = "https://oauth2.googleapis.com/token";
+  
+    const options = {
+      code,
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      redirect_uri: `${process.env.API_ENDPOINT}/api${path.GOOGLE_OAUTH}`,
+      grant_type: "authorization_code",
+    };
+    
+    try {
+      const { data } = await axios.post(
+        rootURl,
+        qs.stringify(options),
         {
           headers: {
-            Authorization: `Bearer ${access_token}`,
+            "Content-Type": "application/x-www-form-urlencoded",
           },
         }
       );
   
       return data;
     } catch (err) {
-      throw Error(err);
+      console.log("Failed to fetch Google Oauth Token");
+      throw err
+    }
+  },
+
+  getGoogleUser: async ({ id_token, access_token }) => {
+    try {
+      const { data } = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`, {
+        headers: { Authorization: `Bearer ${id_token}` },
+      });
+  
+      return data;
+    } catch (err) {
+      throw err
     }
   }
 };

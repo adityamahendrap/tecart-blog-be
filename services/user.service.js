@@ -10,14 +10,19 @@ import generateMetaPagination from "../utils/generateMetaPagination.js";
 const userService = {
   updateOrInsertUser: async (data) => {
     try {
-      const user = await User.findOneAndUpdate(
-        { email: data.email }, 
-        data, 
-        { upsert: true, runValidators: true}
-      )
+      const isExist = await User.findOne({ email: data.email })
+      if(isExist && isExist?.authType !== data.authType) {
+        throw new ResponseError(400, "This email has been registered using another auth type")
+      }
+      if(isExist) {
+        return await User.updateOne({ email: data.email }, data) 
+      }
+
+      const newUser = new User(data)
+      await newUser.save()
 
       logger.info("userService.updateOrInsertUser -> User created");
-      return user;
+      return newUser
     } catch (err) {
       throw err;
     }
@@ -72,6 +77,15 @@ const userService = {
     }
   },
 
+  getUser: async (filter) => {
+    try {
+      const user = await User.findOne(filter); 
+      return user;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   getUserById: async (userId) => {
     try {
       const user = await User.findById(userId);
@@ -89,7 +103,6 @@ const userService = {
   getUserPreference: async (userId) => {
     try {
       const preference = await User.findById(userId).select("preference");
-
       logger.info("userService.getUserPreference -> User preference retrieved");
       return preference;
     } catch (err) {
