@@ -8,7 +8,12 @@ const notificationSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['Like', 'Comment', 'Follow', 'Subscription', 'Post'],
+      enum: [
+        'Like', // notif if someone likes your post
+        'Comment', // notif if someone comments on your post
+        'Follow',  // notif if someone follows you
+        'Subscription', // notif if subscribed author posting a new post
+      ],
       required: true,
     },
     key: {
