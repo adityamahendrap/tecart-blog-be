@@ -241,6 +241,43 @@ const authService = {
     } catch (err) {
       throw err
     }
+  },
+
+  getFacebookOauthToken: async (code) => {
+    try {
+      const { data } = await axios({
+        url: 'https://graph.facebook.com/v4.0/oauth/access_token',
+        method: 'get',
+        params: {
+          client_id: process.env.FACEBOOK_CLIENT_ID,
+          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          // redirect_uri: 'https://www.example.com/authenticate/facebook/',
+          redirect_uri: `${process.env.API_ENDPOINT}/api${path.FACEBOOK_OAUTH}`,
+          code,
+        },
+      });
+      console.log(data); // { access_token, token_type, expires_in }
+      return data.access_token;
+    } catch (err) {
+      throw err
+    }
+  },
+
+  getFacebookUser: async (access_token) => {
+    try {
+      const { data } = await axios({
+        url: 'https://graph.facebook.com/me',
+        method: 'get',
+        params: {
+          fields: ['id', 'email', 'first_name', 'last_name'].join(','),
+          access_token,
+        },
+      });
+      console.log(data); // { id, email, first_name, last_name }
+      return data;
+    } catch (err) {
+      throw err
+    }
   }
 };
 

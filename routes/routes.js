@@ -25,6 +25,7 @@ router.put(path.CHANGE_PASSWORD, verifyUser, authRestriction, authController.cha
 router.put(path.RESET_PASSWORD, authController.resetPassword);
 router.get(path.GITHUB_OAUTH, authController.githubOauth);
 router.get(path.GOOGLE_OAUTH, authController.googleOauth);
+router.get(path.FACEBOOK_OAUTH, authController.facebookOauth);
 
 app.use(cacheMiddleware)
 

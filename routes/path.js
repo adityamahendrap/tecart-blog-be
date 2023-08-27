@@ -12,8 +12,9 @@ export default {
   LOGOUT: "/auth/logout", // ??
   // GITHUB_OAUTH: "/oauth/github",
   // GOOGLE_OAUTH: "/oauth/google",
-  GITHUB_OAUTH: "/sessions/oauth/github",
-  GOOGLE_OAUTH: "/sessions/oauth/google",
+  GITHUB_OAUTH: "/oauth/github",
+  GOOGLE_OAUTH: "/oauth/google",
+  FACEBOOK_OAUTH: "/oauth/facebook",
 
   ME: "/me",
   GET_USERS: "/users",
