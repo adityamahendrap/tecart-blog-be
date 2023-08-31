@@ -1,5 +1,6 @@
 import setCache from "../utils/setCache.js";
 import userService from "../services/user.service.js";
+import notificationService from "../services/notification.service.js";
 
 export default {
   count: async (req, res, next) => {
@@ -40,7 +41,11 @@ export default {
     const { targetId } = req.params;
     try {
       const follow = await userService.follow(doerId, targetId);
-      return res.status(201).send({ message: "Follow created", data: follow });
+      res.status(201).send({ message: "Follow created", data: follow });
+
+      await notificationService.createNotification(targetId, 'Follow', { 
+        doerId
+      })
     } catch (err) {
       next(err);
     }

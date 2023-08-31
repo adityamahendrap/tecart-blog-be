@@ -1,5 +1,7 @@
 import setCache from "../utils/setCache.js";
 import userPostService from "../services/userPost.service.js";
+import notificationService from "../services/notification.service.js";
+import postService from "../services/post.service.js";
 
 export default {
   list: async (req, res, next) => {
@@ -18,7 +20,14 @@ export default {
     const { postId } = req.params;
     try {
       const comment = await userPostService.createComment(userId, postId, req.body);
-      return res.status(201).send({ message: "Comment created", data: comment });
+      res.status(201).send({ message: "Comment created", data: comment });
+
+      const post = await postService.getPostById(postId)
+      await notificationService.createNotification(post.userId, 'Comment', { 
+        postId, 
+        doerId: userId, 
+        commentId: comment._id 
+      })
     } catch (err) {
       next(err);
     }

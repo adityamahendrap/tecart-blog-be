@@ -62,7 +62,9 @@ export default {
     const data = { ...req.body, slug, readingTime, userId };
     try {
       const post = await postService.createPost(data);
-      return res.status(201).send({ message: "Post created", data: post });
+      res.status(201).send({ message: "Post created", data: post });
+
+      // create notification for each subscriber ??
     } catch (err) {
       next(err);
     }

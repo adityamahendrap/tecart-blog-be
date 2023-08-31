@@ -261,9 +261,24 @@ export default {
     route: "/notifications",
     description: ""
   },
-  CREATE_NOTIFICATION: { // ??
-    method: "post",
-    route: "/notifications/:userId",
+  COUNT_UNREAD_NOTIFICATIONS_SELF: {
+    method: "get",
+    route: "/notifications/unread/total",
+    description: ""
+  },
+  READ_NOTIFICATION: {
+    method: "put",
+    route: "/notifications/:id/read",
+    description: ""
+  },
+  READ_ALL_UNREAD_NOTIFICATIONS_SELF: {
+    method: "put",
+    route: "/notifications/read-all",
+    description: ""
+  },
+  DELETE_NOTIFICATION: {
+    method: "delete",
+    route: "/notifications/:id",
     description: ""
   },
   GET_SUBSCRIPTION: {

@@ -11,6 +11,7 @@ import feedController from "../controllers/feed.controller.js";
 import cacheMiddleware from '../middlewares/cacheMiddleware.js';
 import verifyUser from '../middlewares/verifyUserMiddleware.js';
 import authRestriction from '../middlewares/authRestrictionMiddleware.js';
+import notificationController from "../controllers/notification.controller.js";
 import path from './path.js';
 import express, { Router } from "express";
 const app = express();
@@ -112,7 +113,15 @@ router[path.UPDATE_SHARED_POST.method](path.UPDATE_SHARED_POST.route, verifyUser
 
 router[path.DELETE_SHARED_POST.method](path.DELETE_SHARED_POST.route, verifyUser, shareController.delete)
 
-// router[path.GET_NOTIFICATIONS_SELF.method](path.GET_NOTIFICATIONS_SELF.route, verifyUser)
+router[path.GET_NOTIFICATIONS_SELF.method](path.GET_NOTIFICATIONS_SELF.route, verifyUser, notificationController.list)
+
+router[path.COUNT_UNREAD_NOTIFICATIONS_SELF.method](path.COUNT_UNREAD_NOTIFICATIONS_SELF.route, verifyUser, notificationController.countUnread)
+
+router[path.READ_NOTIFICATION.method](path.READ_NOTIFICATION.route, verifyUser, notificationController.read)
+
+router[path.READ_ALL_UNREAD_NOTIFICATIONS_SELF.method](path.READ_ALL_UNREAD_NOTIFICATIONS_SELF.route, verifyUser, notificationController.readAll)
+
+router[path.DELETE_NOTIFICATION.method](path.DELETE_NOTIFICATION.route, verifyUser, notificationController.delete)
 
 router[path.GET_SUBSCRIPTION.method](path.GET_SUBSCRIPTION.route, subscriptionController.get)
 

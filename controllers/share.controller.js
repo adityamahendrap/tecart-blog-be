@@ -2,6 +2,8 @@ import logger from "../utils/logger.js";
 import setCache from "../utils/setCache.js";
 import Share from "../models/share.model.js";
 import userPostService from "../services/userPost.service.js";
+import postService from "../services/post.service.js";
+import notificationService from "../services/notification.service.js";
 
 export default {
   list: async (req, res, next) => {
@@ -20,7 +22,13 @@ export default {
     const { postId, content } = req.body;
     try {
       const share = await userPostService.sharePost(userId, postId, content);
-      return res.status(201).send({ message: "Share created", data: share });
+      res.status(201).send({ message: "Share created", data: share });
+
+      const post = await postService.getPostById(postId)
+      await notificationService.createNotification(post.userId, 'Share', { 
+        postId, 
+        doerId: userId,
+      })
     } catch (err) {
       next(err);
     }

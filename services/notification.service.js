@@ -5,29 +5,20 @@ import Follow from "../models/follow.model.js";
 import Notification from "../models/notification.model.js";
 import ResponseError from "../errors/ResponseError.js";
 
-// Like
-notificationService.createNotification(userId, 'Like', {
-  postId,
-  doerId,
-})
+// // Like example
+// notificationService.createNotification(userId, 'Like', { postId, doerId })
 
-// Comment
-notificationService.createNotification(userId, 'Comment', {
-  postId,
-  doerId,
-  commentId,
-})
+// // Share example
+// notificationService.createNotification(userId, 'Share', { postId, doerId })
 
-// Follow
-notificationService.createNotification(userId, 'Follow', {
-  doerId
-})
+// // Comment example
+// notificationService.createNotification(userId, 'Comment', { postId, doerId, commentId })
 
-// Subscription
-notificationService.createNotification(userId, 'Subscription', {
-  authorId,
-  postId,
-})
+// // Follow example
+// notificationService.createNotification(userId, 'Follow', { doerId })
+
+// // Subscription example
+// notificationService.createNotification(userId, 'Subscription', { authorId, postId })
 
 const notificationService = {
   getNotifications: async (userId) => {
@@ -44,6 +35,13 @@ const notificationService = {
             const { username } = await User.findById(notification.key.doerId).select('username');
             notification.info = { title, username }
             notification.message = `${username} liked your post "${title}"`;
+          }
+          if(notification.type === 'Share') 
+          {
+            const { title } = await Post.findById(notification.key.postId).select('title');
+            const { username } = await User.findById(notification.key.userId).select('username');
+            notification.info = { title, username }
+            notification.message = `${username} shared your post "${title}"`;
           }
           else if(notification.type === 'Comment') 
           {

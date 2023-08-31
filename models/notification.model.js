@@ -12,6 +12,7 @@ const notificationSchema = new mongoose.Schema(
         'Like', // notif if someone likes your post
         'Comment', // notif if someone comments on your post
         'Follow',  // notif if someone follows you
+        'Share',  // notif if someone share your post
         'Subscription', // notif if subscribed author posting a new post
       ],
       required: true,

@@ -1,5 +1,8 @@
 import setCache from "../utils/setCache.js";
 import userPostService from "../services/userPost.service.js";
+import notificationService from "../services/notification.service.js";
+import userService from "../services/user.service.js";
+import postService from "../services/post.service.js";
 
 export default {
   listLikedPosts: async (req, res, next) => {
@@ -29,8 +32,14 @@ export default {
     const userId = req.user._id;
     const { postId } = req.params;
     try {
-      const like = await userPostService.like(userId, postId);
-      return res.status(201).send({ message: "Like created", data: like });
+      const like = await userPostService.likePost(userId, postId);
+      res.status(201).send({ message: "Like created", data: like });
+
+      const post = await postService.getPostById(postId)
+      await notificationService.createNotification(post.userId, 'Like', { 
+        postId, 
+        doerId: userId,
+      })
     } catch (err) {
       next(err);
     }
